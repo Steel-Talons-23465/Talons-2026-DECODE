@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.General.Robot;
 import org.firstinspires.ftc.teamcode.General.SharedData;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous (name = "Auto Iron")
-public class AutoIron extends OpMode {
+@Autonomous (name = "Auto Preload")
+public class AutoPreload extends OpMode {
 
     private Robot hornet = new Robot();
     private Follower f = null;
