@@ -31,7 +31,6 @@ public class NewTeleOp extends LinearOpMode{
     double speedMultiplier;
     boolean slowMode;
     boolean launching;
-    boolean automated;
     private Timer launchTimer;
     private int inMotif;
     AutoPathStates setPose;
@@ -54,7 +53,7 @@ public class NewTeleOp extends LinearOpMode{
         while(opModeIsActive()) {
             f.update();
 
-            if(!automated) {
+            if(setPose == AutoPathStates.TELEOP) {
                 f.setTeleOpDrive(
                         -gamepad1.left_stick_y * speedMultiplier,
                         -gamepad1.left_stick_x * speedMultiplier,
@@ -64,49 +63,42 @@ public class NewTeleOp extends LinearOpMode{
                 );
             }
 
-            if (!automated){
+            if (setPose == AutoPathStates.TELEOP){
                 //go to close launch main
                 if (gamepad1.a){
                     f.followPath(goToClose(false));
                     setPose = AutoPathStates.CLOSE;
-                    automated = true;
                 }
                 //go to close launch alt
                 else if (gamepad2.a  && !gamepad2.right_bumper && !gamepad2.left_bumper){
                     f.followPath(goToClose(true));
                     setPose = AutoPathStates.CLOSE_ALT;
-                    automated = true;
                 }
                 //go to park
                 else if (gamepad1.x){
                     f.followPath(goToPark());
                     setPose = AutoPathStates.PARK;
-                    automated = true;
                 }
                 //go to far launch main
                 else if (gamepad1.b){
                     f.followPath(goToFar(false));
                     setPose = AutoPathStates.FAR;
-                    automated = true;
                 }
                 //go to far launch alt
                 else if (gamepad2.b && !gamepad2.right_bumper && !gamepad2.left_bumper ){
                     f.followPath(goToFar(true));
                     setPose = AutoPathStates.FAR_ALT;
-                    automated = true;
                 }
                 //go to gate
                 else if ((gamepad1.y ||(gamepad2.y && !gamepad2.right_bumper && !gamepad2.left_bumper))) {
                     f.followPath(goToGate());
                     setPose = AutoPathStates.GATE;
-                    automated = true;
                 }
-
             }
             //exits automated
             else if((!gamepad1.a && setPose == AutoPathStates.CLOSE) || (!gamepad2.a && setPose == AutoPathStates.CLOSE_ALT) || ((!gamepad1.y || gamepad2.y) && setPose == AutoPathStates.GATE) || (!gamepad1.x && setPose == AutoPathStates.PARK) ){
                 f.startTeleopDrive(true);
-                automated = false;
+                setPose = AutoPathStates.TELEOP;
             }
 
             if(gamepad1.left_trigger >= .2)

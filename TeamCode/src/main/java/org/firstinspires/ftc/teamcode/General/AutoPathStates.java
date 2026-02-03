@@ -6,5 +6,6 @@ public enum AutoPathStates {
     FAR,
     FAR_ALT,
     GATE,
-    PARK
+    PARK,
+    TELEOP
 }

@@ -226,6 +226,12 @@ public class TeleOpAllInOne extends LinearOpMode{
         {
             launching = false;
             hornet.resetLaunch();
+        }else if(gamepad2.right_trigger > .2)
+        {
+            hornet.kickIntake();
+        }else
+        {
+            hornet.returnIntakeKicker();
         }
 
 

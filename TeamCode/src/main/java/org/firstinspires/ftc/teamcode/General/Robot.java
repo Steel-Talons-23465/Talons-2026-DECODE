@@ -21,6 +21,7 @@ public class Robot {
     public static DcMotorEx intake;
 //    public static CRServo intakeServo;
     public static Servo hammer;
+    public static Servo intakeKicker;
     private static RevColorSensorV3 colorRight;
     private static RevColorSensorV3 colorLeft;
     private static TouchSensor touchSensor;
@@ -35,7 +36,6 @@ public class Robot {
 
 
     int launchTargetVelocity;
-    private static Servo test = null;
     int slotGoal;
     boolean launched;
 
@@ -44,6 +44,7 @@ public class Robot {
          touchSensor = hwMp.get(TouchSensor.class, "touchSensor");
         colorRight = hwMp.get(RevColorSensorV3.class, "colorRight");
         hammer = hwMp.get(Servo.class, "hammer");
+        intakeKicker = hwMp.get(Servo.class, "kickerRight");
         rightLaunch = hwMp.get(DcMotorEx.class, "rightLaunch");
         leftLaunch = hwMp.get(DcMotorEx.class, "leftLaunch");
         colorLeft = hwMp.get(RevColorSensorV3.class, "colorLeft");
@@ -77,7 +78,7 @@ public class Robot {
     }
 
     public void setStoragePos(int slot, boolean intake) {
-        int ticks = 1426;
+        int ticks = 1425;
         int absolutePos = fan.getCurrentPosition();
         int relativePos = absolutePos % ticks;
         int rotationOffset = absolutePos-relativePos;
@@ -222,6 +223,14 @@ public class Robot {
         slotTwoGreen.off();
         slotTwoRed.off();
 
+    }
+
+    public void kickIntake(){
+         intakeKicker.setPosition(1);
+    }
+    public void returnIntakeKicker()
+    {
+        intakeKicker.setPosition(.5);
     }
 
 //    public void getTargetArea(){
