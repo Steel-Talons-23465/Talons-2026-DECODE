@@ -27,13 +27,14 @@ public class NewTeleOp extends LinearOpMode{
     private Robot hornet = new Robot();
     private Follower f;
     private PoseConstants poses = new PoseConstants();
+    AutoPathStates setPose = AutoPathStates.TELEOP;
+
     boolean robotCentric;
     double speedMultiplier;
     boolean slowMode;
     boolean launching;
     private Timer launchTimer;
     private int inMotif;
-    AutoPathStates setPose = AutoPathStates.TELEOP;
 
     boolean dpadLeft;
     boolean dpadLeft2;
@@ -227,7 +228,7 @@ public class NewTeleOp extends LinearOpMode{
             launching = true;
         }
         if(dpadLeft2 != gamepad2.dpad_left && gamepad2.dpad_left)
-            inMotif  = inMotif == 2 ? 0 : inMotif + 1;
+            inMotif  = inMotif == 0 ? 2 : inMotif - 1;
         dpadLeft2 = gamepad2.dpad_left;
 
         //If launching -> speed up launchMotors
