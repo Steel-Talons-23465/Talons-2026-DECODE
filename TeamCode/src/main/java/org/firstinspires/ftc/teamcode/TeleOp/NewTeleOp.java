@@ -33,7 +33,7 @@ public class NewTeleOp extends LinearOpMode{
     boolean launching;
     private Timer launchTimer;
     private int inMotif;
-    AutoPathStates setPose;
+    AutoPathStates setPose = AutoPathStates.TELEOP;
 
     boolean dpadLeft;
     boolean dpadLeft2;
@@ -96,10 +96,19 @@ public class NewTeleOp extends LinearOpMode{
                 }
             }
             //exits automated
-            else if((!gamepad1.a && setPose == AutoPathStates.CLOSE) || (!gamepad2.a && setPose == AutoPathStates.CLOSE_ALT) || ((!gamepad1.y || gamepad2.y) && setPose == AutoPathStates.GATE) || (!gamepad1.x && setPose == AutoPathStates.PARK) ){
+            else if((!gamepad1.a && setPose == AutoPathStates.CLOSE)
+                    || (!gamepad2.a && setPose == AutoPathStates.CLOSE_ALT)
+                    || ((!gamepad1.y && !gamepad2.y) && setPose == AutoPathStates.GATE)
+                    || (!gamepad1.x && setPose == AutoPathStates.PARK)
+                    || (!gamepad1.b && setPose == AutoPathStates.FAR)
+                    || (!gamepad2.b && setPose == AutoPathStates.FAR_ALT)){
                 f.startTeleopDrive(true);
                 setPose = AutoPathStates.TELEOP;
             }
+
+
+            telemetry.addData("in" , setPose);
+            telemetry.update();
 
             if(gamepad1.left_trigger >= .2)
                 speedMultiplier = .2;
