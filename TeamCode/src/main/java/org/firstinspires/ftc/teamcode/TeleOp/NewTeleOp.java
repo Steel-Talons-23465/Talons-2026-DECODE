@@ -48,7 +48,6 @@ public class NewTeleOp extends LinearOpMode{
         hornet.resetHammer();
 
         controlTele();
-
         waitForStart();
 
         f.startTeleOpDrive(true);
