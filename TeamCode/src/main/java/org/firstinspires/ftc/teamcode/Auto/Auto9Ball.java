@@ -169,7 +169,7 @@ public class Auto9Ball extends OpMode {
 
 
     public void buildPaths(){
-        start = new Path( new BezierLine(poses.START_POSE , poses.LAUNCH_POSE));
+        start = new Path(new BezierLine(poses.START_POSE , poses.LAUNCH_POSE));
         start.setLinearHeadingInterpolation(poses.START_POSE.getHeading() , poses.LAUNCH_POSE.getHeading());
 
         one = f.pathBuilder()
@@ -252,7 +252,7 @@ public class Auto9Ball extends OpMode {
                     launching = false;
                 }
                 //score 2
-                else if (!f.isBusy()&& pathTimer.getElapsedTimeSeconds() > 3) {
+                else if (!f.isBusy()&& pathTimer.getElapsedTimeSeconds() > 6) {
                     launching = true;
                 }
                 break;

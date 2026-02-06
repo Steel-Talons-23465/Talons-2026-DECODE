@@ -295,9 +295,9 @@ public class Auto9BallAlt extends OpMode {
                     sendPose();
                 }
                 //score 3
-                else if (!f.isBusy() && pathTimer.getElapsedTimeSeconds() > 3){
-                    launching = true;
-                }
+//                else if (!f.isBusy() && pathTimer.getElapsedTimeSeconds() > 3){
+//                    launching = true;
+//                }
                 break;
             case 8:
                 if (!f.isBusy()){

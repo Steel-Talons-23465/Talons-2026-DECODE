@@ -158,11 +158,15 @@ public class Robot {
     public ColorSensed detectColor() {
          double saturationR = JavaUtil.rgbToSaturation(colorRight.red(), colorRight.green(), colorRight.blue());
          double hueR = JavaUtil.rgbToHue(colorRight.red(), colorRight.green(), colorRight.blue());
-         ColorSensed right =  (hueR > 160 && saturationR < .3) ? ColorSensed.PURPLE : ((hueR < 150 && saturationR > .65) ? ColorSensed.GREEN : ColorSensed.INCONCLUSIVE);
-        double saturationL = JavaUtil.rgbToSaturation(colorLeft.red(), colorLeft.green(), colorLeft.blue());
-        double hueL = JavaUtil.rgbToHue(colorLeft.red(), colorLeft.green(), colorLeft.blue());
-        ColorSensed left =  (hueL > 200 && saturationL < .7 && saturationL < .6) ? ColorSensed.PURPLE : ((hueL < 180 && saturationL > .7) ? ColorSensed.GREEN : ColorSensed.INCONCLUSIVE);
-         return right == left ? right : left == ColorSensed.INCONCLUSIVE ? right : left;
+
+         ColorSensed  right=  (hueR > 160 && saturationR < .3) ? ColorSensed.PURPLE : ((hueR < 150 && saturationR > .65) ? ColorSensed.GREEN : ColorSensed.INCONCLUSIVE);
+
+         double saturationL = JavaUtil.rgbToSaturation(colorLeft.red(), colorLeft.green(), colorLeft.blue());
+         double hueL = JavaUtil.rgbToHue(colorLeft.red(), colorLeft.green(), colorLeft.blue());
+
+          ColorSensed left =  (hueL > 200 && saturationL < .7 && saturationL < .6) ? ColorSensed.PURPLE : ((hueL < 180 && saturationL > .7) ? ColorSensed.GREEN : ColorSensed.INCONCLUSIVE);
+
+          return right == left ? right : left == ColorSensed.INCONCLUSIVE ? right : left;
     }
 
     public String returnColor(){
