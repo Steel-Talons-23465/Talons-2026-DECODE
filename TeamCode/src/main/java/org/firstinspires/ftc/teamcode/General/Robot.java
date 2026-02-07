@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.General;
 
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
+import  org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -34,7 +34,7 @@ public class Robot {
     private static LED slotOneRed;
     private static LED slotTwoRed;
 
-
+    ColorSensed[] display = {ColorSensed.NO_COLOR, ColorSensed.NO_COLOR, ColorSensed.NO_COLOR};
     int launchTargetVelocity;
     int slotGoal;
     boolean launched;
@@ -216,6 +216,55 @@ public class Robot {
             slotTwoRed.on();
         else slotTwoRed.off();
 
+    }
+    public void updateLED(int inMotif){
+         int green = 0;
+         int purple = 0;
+         int inconclusive = 0;
+         for(int j = 0; j < SharedData.storage.length; j++){
+             if(SharedData.storage[j] == ColorSensed.GREEN)
+                 green++;
+             else if (SharedData.storage[j] == ColorSensed.PURPLE)
+                 purple++;
+             else if (SharedData.storage[j] == ColorSensed.INCONCLUSIVE)
+                 inconclusive++;
+         }
+         for(int j = 0; j < display.length; j++){
+             if(inMotif == SharedData.greenIndex){
+                 if(green > 0) {
+                     display[j] = ColorSensed.GREEN;
+                     green--;
+                 }
+                 else if(inconclusive > 0){
+                     display[j] = ColorSensed.INCONCLUSIVE;
+                     inconclusive--;
+                 }
+                 else if(purple > 0){
+                     display[j] = ColorSensed.PURPLE;
+                     purple--;
+                 }
+                 else{
+                     display[j] = ColorSensed.NO_COLOR;
+                 }
+             }
+             else{
+                 if(purple > 0) {
+                     display[j] = ColorSensed.PURPLE;
+                     purple--;
+                 }
+                 else if(inconclusive > 0){
+                     display[j] = ColorSensed.INCONCLUSIVE;
+                     inconclusive--;
+                 }
+                 else if(green > 0){
+                     display[j] = ColorSensed.GREEN;
+                     green--;
+                 }
+                 else{
+                     display[j] = ColorSensed.NO_COLOR;
+                 }
+             }
+         }
     }
 
     public void disableLED()
