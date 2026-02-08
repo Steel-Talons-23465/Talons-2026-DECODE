@@ -86,14 +86,14 @@ public class Auto9Ball extends OpMode {
         opmodeTimer.resetTimer();
         limelight.stop();
         setPathState(0);
-        hornet.updateLED();
+        hornet.updateLED(SharedData.storage);
     }
     @Override
     public void loop() {
         f.update();
         sendPose();
         autoPathUpdates();
-        hornet.updateLED();
+        hornet.updateLED(SharedData.storage);
 
         if(!launching) {
             hornet.resetHammer();

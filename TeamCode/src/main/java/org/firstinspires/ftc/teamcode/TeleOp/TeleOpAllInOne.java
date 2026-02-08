@@ -203,7 +203,7 @@ public class TeleOpAllInOne extends LinearOpMode{
 
             if (autoMode) {autoMode();} else {manualMode();}
 
-            hornet.updateLED();
+            hornet.updateLED(SharedData.storage);
 
             if(dpadLeft != gamepad1.dpad_left && gamepad1.dpad_left)
                 robotCentric = !robotCentric;

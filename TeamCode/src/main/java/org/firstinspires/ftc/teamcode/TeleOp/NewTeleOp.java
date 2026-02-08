@@ -58,7 +58,7 @@ public class NewTeleOp extends LinearOpMode{
             updateIntake();
             updateSorter();
             updateLauncher();
-            hornet.updateLED();
+            hornet.updateLED(inMotif);
             tele();
         }
     }

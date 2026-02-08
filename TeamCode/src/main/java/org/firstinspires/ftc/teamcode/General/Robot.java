@@ -195,24 +195,24 @@ public class Robot {
 
 
 
-    public void updateLED() {
+    public void updateLED(ColorSensed[] order) {
 
-         if(SharedData.storage[0] == ColorSensed.PURPLE || SharedData.storage[0] == ColorSensed.INCONCLUSIVE)
+         if(order[0] == ColorSensed.PURPLE || order[0] == ColorSensed.INCONCLUSIVE)
             slotZeroGreen.on();
          else slotZeroGreen.off();
-        if(SharedData.storage[0] == ColorSensed.GREEN || SharedData.storage[0] == ColorSensed.INCONCLUSIVE)
+        if(order[0] == ColorSensed.GREEN || order[0] == ColorSensed.INCONCLUSIVE)
             slotZeroRed.on();
         else slotZeroRed.off();
-        if(SharedData.storage[1] == ColorSensed.PURPLE || SharedData.storage[1] == ColorSensed.INCONCLUSIVE)
+        if(order[1] == ColorSensed.PURPLE || order[1] == ColorSensed.INCONCLUSIVE)
             slotOneGreen.on();
         else slotOneGreen.off();
-        if(SharedData.storage[1] == ColorSensed.GREEN || SharedData.storage[1] == ColorSensed.INCONCLUSIVE)
+        if(order[1] == ColorSensed.GREEN || order[1] == ColorSensed.INCONCLUSIVE)
             slotOneRed.on();
         else slotOneRed.off();
-        if(SharedData.storage[2] == ColorSensed.PURPLE || SharedData.storage[2] == ColorSensed.INCONCLUSIVE)
+        if(order[2] == ColorSensed.PURPLE || order[2] == ColorSensed.INCONCLUSIVE)
             slotTwoGreen.on();
         else slotTwoGreen.off();
-        if(SharedData.storage[2] == ColorSensed.GREEN || SharedData.storage[2] == ColorSensed.INCONCLUSIVE)
+        if(order[2] == ColorSensed.GREEN || order[2] == ColorSensed.INCONCLUSIVE)
             slotTwoRed.on();
         else slotTwoRed.off();
 
@@ -265,6 +265,7 @@ public class Robot {
                  }
              }
          }
+         updateLED(display);
     }
 
     public void disableLED()
