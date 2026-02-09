@@ -119,6 +119,25 @@ public class Robot {
         }
     }
 
+    public void setStoragePosOneRotation(int slot, boolean intake){
+         int ticks = 1425;
+         if(intake){
+             if(slot == 0)
+                 fan.setTargetPosition(0);
+             if(slot == 1)
+                 fan.setTargetPosition(ticks/3);
+             if(slot == 2)
+                 fan.setTargetPosition(2*ticks/3);
+         }else{
+             if(slot == 0)
+                 fan.setTargetPosition(ticks/2);
+             if(slot == 1)
+                 fan.setTargetPosition(5*ticks/6);
+             if(slot == 2)
+                 fan.setTargetPosition(7*ticks/6);
+         }
+    }
+
     public void startIntake(boolean in, double pow) {intake.setPower(in ? pow : -1*pow);}
     public void stopIntake() {intake.setPower(0);}
 
