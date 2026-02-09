@@ -273,6 +273,8 @@ public class NewTeleOp extends LinearOpMode{
             hornet.startIntake(false,1);
         else
             hornet.stopIntake();
+
+        if(gamepad1.right_trigger > .2){hornet.kickIntake();}else{hornet.returnIntakeKicker();}
     }
 
     public void updateSorter(){
