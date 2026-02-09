@@ -121,6 +121,7 @@ public class Robot {
 
     public void setStoragePosOneRotation(int slot, boolean intake){
          int ticks = 1425;
+         slotGoal = slot;
          if(intake){
              if(slot == 0)
                  fan.setTargetPosition(0);
@@ -283,6 +284,7 @@ public class Robot {
                      display[j] = ColorSensed.NO_COLOR;
                  }
              }
+             inMotif = inMotif == 2 ? 0 : inMotif + 1;
          }
          updateLED(display);
     }

@@ -56,8 +56,8 @@ public class NewTeleOp extends LinearOpMode{
             f.update();
             updateMovement();
             updateIntake();
-            updateSorter();
             updateLauncher();
+            updateSorter();
             hornet.updateLED(inMotif);
             tele();
         }
@@ -112,7 +112,7 @@ public class NewTeleOp extends LinearOpMode{
 //        telemetry.addLine(String.format("LeftVel: %f\nRightVel: %f",hornet.leftLaunch.getVelocity(), hornet.rightLaunch.getVelocity() ));
 //        telemetry.addData("targetVelocity" ,hornet.getLaunchTargetVelocity());
 //        telemetry.addData("atTarget" , hornet.atTargetVelocity());
-//        telemetry.addData("launchTimer", launchTimer.getElapsedTimeSeconds());
+        telemetry.addData("launchTimer", launchTimer.getElapsedTimeSeconds());
 //        telemetry.addData("button", hornet.buttonPressed());
 //        telemetry.addData("at sort", hornet.atSortTarget());
 //        telemetry.addData("current ID" , figureID());
@@ -251,7 +251,7 @@ public class NewTeleOp extends LinearOpMode{
         //and flap is at launch position -> move flap back and clear storage slot
         //and flap is at not launch position and it says its launching -> say its not launching
 
-        if(hornet.hammerAtLaunch() && launching && !hornet.atTargetVelocity() && launchTimer.getElapsedTimeSeconds() > .25){
+        if(hornet.hammerAtLaunch() && launching  && launchTimer.getElapsedTimeSeconds() > .25){
             launchTimer.resetTimer();
             hornet.resetHammer();
             SharedData.clearSlot(hornet.getSlotGoal());
@@ -278,7 +278,7 @@ public class NewTeleOp extends LinearOpMode{
     public void updateSorter(){
         //Choose Launcher Slot
         if(!launching)
-            hornet.setStoragePosOneRotation(SharedData.storage[0] == ColorSensed.NO_COLOR ? 0 : (SharedData.storage[1] == ColorSensed.NO_COLOR ? 1 : 2) , !SharedData.isFull());
+            hornet.setStoragePosOneRotation(!SharedData.isFull() ? (SharedData.storage[0] == ColorSensed.NO_COLOR ? 0 : (SharedData.storage[1] == ColorSensed.NO_COLOR ? 1 : 2)) : 0 , !SharedData.isFull());
 
         //Manual Color Setting
         if(gamepad2.right_bumper && gamepad2.left_bumper) {
