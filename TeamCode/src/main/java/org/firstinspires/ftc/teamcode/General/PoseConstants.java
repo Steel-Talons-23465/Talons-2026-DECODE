@@ -43,7 +43,7 @@ public class PoseConstants {
 
 
 
-    public Pose ALIGN3_POSE = SharedData.side == Side.RED ? new Pose(131.75,21,Math.toRadians(40)) : new Pose(12.25,13,Math.toRadians(140));
+    public Pose ALIGN3_POSE = SharedData.side == Side.RED ? new Pose(87.25,19.25,Math.toRadians(0)) : new Pose(56.75,19.25,Math.toRadians(180));
     //public Pose ALIGN3_POSE_CONTROL = SharedData.side == Side.RED ? new Pose(124, 6) : new Pose(28, 6);
-    public Pose PICKUP3_POSE = SharedData.side == Side.RED ? new Pose(131.75,43,Math.toRadians(10)) : new Pose(12.25,43,Math.toRadians(160));
+    public Pose PICKUP3_POSE = SharedData.side == Side.RED ? new Pose(133.75,19.25,Math.toRadians(0)) : new Pose(14.25,19.25,Math.toRadians(180));
 }
