@@ -288,16 +288,16 @@ public class Auto9BallAlt extends OpMode {
                 }
                 break;
             case 7:
-                if (!f.isBusy() && SharedData.isEmpty() && launchTimer.getElapsedTimeSeconds() > .25 && opmodeTimer.getElapsedTimeSeconds() < 28.5){
+                if (!f.isBusy() && launchTimer.getElapsedTimeSeconds() > .25 && opmodeTimer.getElapsedTimeSeconds() < 28.5){
                     // sends to final location
                     f.followPath(end);
                     setPathState(8);
                     sendPose();
                 }
                 //score 3
-//                else if (!f.isBusy() && pathTimer.getElapsedTimeSeconds() > 3){
-//                    launching = true;
-//                }
+                else if (!f.isBusy() && pathTimer.getElapsedTimeSeconds() > 3){
+                    launching = true;
+                }
                 break;
             case 8:
                 if (!f.isBusy()){
