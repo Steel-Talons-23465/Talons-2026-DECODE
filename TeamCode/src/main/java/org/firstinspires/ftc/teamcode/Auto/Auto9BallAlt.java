@@ -101,13 +101,13 @@ public class Auto9BallAlt extends OpMode {
             hornet.resetHammer();
             hornet.resetLaunch();
             if(pathState == 1 || pathState == 4 || pathState == 7)
-                hornet.startLaunchMotors(SharedData.shootFar);
+                hornet.startLaunchMotorsPIDF(SharedData.shootFar);
             else
                 hornet.stopLaunchMotors();
             if(launchTimer.getElapsedTimeSeconds() > .1)
                 hornet.setStoragePos(!SharedData.isFull() ? SharedData.storage[0] == ColorSensed.NO_COLOR ? 0 : (SharedData.storage[1] == ColorSensed.NO_COLOR ? 1 : 2) : (SharedData.greenIndex == 0 ? (SharedData.getGreenIndex() == -1 ? SharedData.getPurpleIndex() : SharedData.getGreenIndex()) : (SharedData.getPurpleIndex()) == -1 ? SharedData.getGreenIndex() : SharedData.getPurpleIndex()), !SharedData.isFull());
             launchingTemp = false;
-        }else{hornet.startLaunchMotors(SharedData.shootFar);}
+        }else{hornet.startLaunchMotorsPIDF(SharedData.shootFar);}
 
         // panels.getTelemetry().addData("key", value);
         // panels.getTelemetry().update();
@@ -156,7 +156,9 @@ public class Auto9BallAlt extends OpMode {
 //        telemetry.addData("Temp launch", launchingTemp);
 //        telemetry.addData("launching", launching);
 //        telemetry.addData("sort", hornet.atSortTarget() ? "at target" : "not at target");
-//        telemetry.addData("launch motors", hornet.atTargetVelocity() ? "at velocity" : "not at velocity");
+        telemetry.addData("launch target" , hornet.getLaunchTargetVelocity());
+        telemetry.addLine(String.format("LeftVel: %f\nRightVel: %f",hornet.leftLaunch.getVelocity(), hornet.rightLaunch.getVelocity() ));
+
         telemetry.update();
     }
 
@@ -264,7 +266,7 @@ public class Auto9BallAlt extends OpMode {
                     launching = false;
                 }
                 //score 2
-                else if (!f.isBusy()&& pathTimer.getElapsedTimeSeconds() > 4.5) {
+                else if (!f.isBusy()&& pathTimer.getElapsedTimeSeconds() > 3) {
                     launching = true;
                 }
                 break;
@@ -278,7 +280,7 @@ public class Auto9BallAlt extends OpMode {
                 }
                 break;
             case 6:
-                if (!f.isBusy() || SharedData.isFull() || pathTimer.getElapsedTimeSeconds() > 3.5){
+                if (!f.isBusy() || SharedData.isFull() || pathTimer.getElapsedTimeSeconds() > 3){
                     //move to score pose
                     hornet.startIntake(false, .25);
                     f.followPath(six , true);

@@ -36,7 +36,7 @@ public class Robot {
     private static LED slotTwoRed;
 
     ColorSensed[] display = {ColorSensed.NO_COLOR, ColorSensed.NO_COLOR, ColorSensed.NO_COLOR};
-    int launchTargetVelocity;
+    double launchTargetVelocity;
     int slotGoal;
     boolean launched;
 
@@ -158,7 +158,7 @@ public class Robot {
 		rightLaunch.setVelocity(launchTargetVelocity);
 	}
 
-    public int getLaunchTargetVelocity(){
+    public double getLaunchTargetVelocity(){
          return launchTargetVelocity;
     }
 
@@ -313,11 +313,23 @@ public class Robot {
     }
 
     public void liftServos(boolean lifting){
-         liftRight.setPosition(lifting ? 1 : .5);
+         liftRight.setPosition(lifting ? 0 : .5);
          liftLeft.setPosition(lifting ? 1 : .5);
     }
 
 
+    public void startLaunchMotorsPIDF(boolean far){
+         launchTargetVelocity = rpmToTicksPerSecond(far ? 1025 : 600);
+         rightLaunch.setVelocityPIDFCoefficients(20,0,2, 12);
+         leftLaunch.setVelocityPIDFCoefficients(20,0,2,12);
+
+         rightLaunch.setVelocity(launchTargetVelocity);
+         leftLaunch.setVelocity(launchTargetVelocity);
+    }
+
+    private double rpmToTicksPerSecond(double rpm) {
+        return ( rpm / 60.0) * 112.0;
+    }
 //    public void getTargetArea(){
 //         if (result.isValid()){
 //

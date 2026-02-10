@@ -6,6 +6,8 @@
             <goBILDA5202SeriesMotor name="intake" port="1" />
             <goBILDA5202SeriesMotor name="rightLaunch" port="2" />
             <goBILDA5202SeriesMotor name="leftLaunch" port="3" />
+            <Servo name="liftLeft" port="3" />
+            <Servo name = "liftRight" port = "2"/>
             <Servo name="hammer" port="4" />
             <Led name="slotZeroGreen" port="0" />
             <Led name="slotZeroRed" port="1" />

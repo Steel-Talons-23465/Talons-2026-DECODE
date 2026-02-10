@@ -62,6 +62,7 @@ public class NewTeleOp extends LinearOpMode{
             updateIntake();
             updateLauncher();
             updateSorter();
+            updateAscension();
             hornet.updateLED(inMotif);
             tele();
         }
@@ -322,10 +323,10 @@ public class NewTeleOp extends LinearOpMode{
 
     public void updateAscension(){
 
-        if (pad2x != gamepad1.x && gamepad2.x){
+        if (pad2x != gamepad2.x && gamepad2.x){
             ascending = !ascending;
         }
-        pad2x = gamepad1.x;
+        pad2x = gamepad2.x;
 
         if (ascending){
             hornet.liftServos(true);
