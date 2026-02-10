@@ -21,6 +21,7 @@ public class Robot {
     public static DcMotorEx intake;
 //    public static CRServo intakeServo;
     public static Servo hammer;
+    public static Servo liftRight, liftLeft;
     public static Servo intakeKicker;
     private static RevColorSensorV3 colorRight;
     private static RevColorSensorV3 colorLeft;
@@ -48,6 +49,9 @@ public class Robot {
         rightLaunch = hwMp.get(DcMotorEx.class, "rightLaunch");
         leftLaunch = hwMp.get(DcMotorEx.class, "leftLaunch");
         colorLeft = hwMp.get(RevColorSensorV3.class, "colorLeft");
+
+        liftLeft = hwMp.get(Servo.class , "liftLeft");
+        liftRight = hwMp.get(Servo.class, "liftRight");
 
         intake = hwMp.get(DcMotorEx.class, "intake");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -307,6 +311,12 @@ public class Robot {
     {
         intakeKicker.setPosition(.5);
     }
+
+    public void liftServos(boolean lifting){
+         liftRight.setPosition(lifting ? 1 : .5);
+         liftLeft.setPosition(lifting ? 1 : .5);
+    }
+
 
 //    public void getTargetArea(){
 //         if (result.isValid()){

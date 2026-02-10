@@ -30,6 +30,10 @@ public class NewTeleOp extends LinearOpMode{
     AutoPathStates setPose = AutoPathStates.TELEOP;
 
     boolean robotCentric;
+
+    boolean ascending;
+    boolean pad2x;
+
     double speedMultiplier;
     boolean slowMode;
     boolean launching;
@@ -314,6 +318,19 @@ public class NewTeleOp extends LinearOpMode{
         }
 
 
+    }
+
+    public void updateAscension(){
+
+        if (pad2x != gamepad1.x && gamepad2.x){
+            ascending = !ascending;
+        }
+        pad2x = gamepad1.x;
+
+        if (ascending){
+            hornet.liftServos(true);
+        }
+        else hornet.liftServos(false);
     }
 
 }
