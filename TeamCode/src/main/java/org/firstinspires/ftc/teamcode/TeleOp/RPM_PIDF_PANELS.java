@@ -8,14 +8,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Configurable
-@TeleOp(name = "RPM PIDF Dashboard Extended", group = "Tutorial")
+@TeleOp(name = "RPM PIDF Panels", group = "LAUNCHING TUNERS")
 public class RPM_PIDF_PANELS extends LinearOpMode {
 
     private DcMotorEx leftMotor;
     private DcMotorEx rightMotor;
     private PanelsTelemetry panels = PanelsTelemetry.INSTANCE;
     // REV HD Hex encoder (no gearbox)
-    private static final double TICKS_PER_REV = 112.0;
+    private static final double TICKS_PER_REV = 28;
 
     // Tunable PIDF values (from dashboard)
     public static double kP = 20.0;
@@ -31,7 +31,6 @@ public class RPM_PIDF_PANELS extends LinearOpMode {
     // Direction flags (true = REVERSE, false = FORWARD)
     public static boolean leftReverse = false;
     public static boolean rightReverse = true;
-    public static boolean intakeReverse = false;
 
     @Override
     public void runOpMode() {
@@ -69,16 +68,23 @@ public class RPM_PIDF_PANELS extends LinearOpMode {
             // Telemetry for Dashboard
             panels.getTelemetry().addData("Target RPM Left", targetRPM_left);
             panels.getTelemetry().addData("Target RPM Right", targetRPM_right);
+
+            panels.getTelemetry().addData("Left target Vel" , leftVelocity);
+            panels.getTelemetry().addData("Right target Vel" , rightVelocity);
+
             panels.getTelemetry().addData("Left Actual Velocity", leftMotor.getVelocity());
-
             panels.getTelemetry().addData("Right Actual Velocity", rightMotor.getVelocity());
-
             panels.getTelemetry().update();
 
             // Driver Station telemetry
             telemetry.addData("Target RPM Left", targetRPM_left);
             telemetry.addData("Target RPM Right", targetRPM_right);
             telemetry.addData("Target RPM Intake", targetRPM_intake);
+
+            telemetry.addData("Left target Vel" , leftVelocity);
+            telemetry.addData("Right target Vel" , rightVelocity);
+
+
             telemetry.addData("Left Actual Velocity", leftMotor.getVelocity());
             telemetry.addData("Right Actual Velocity", rightMotor.getVelocity());
             telemetry.update();

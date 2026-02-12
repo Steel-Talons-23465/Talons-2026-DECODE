@@ -66,7 +66,7 @@ public class Robot {
          slotOneRed = hwMp.get(LED.class, "slotOneRed");
          slotTwoRed = hwMp.get(LED.class, "slotTwoRed");
 
-         rightLaunch.setDirection(DcMotorSimple.Direction.REVERSE);
+         leftLaunch.setDirection(DcMotorSimple.Direction.REVERSE);
          leftLaunch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
          leftLaunch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          rightLaunch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

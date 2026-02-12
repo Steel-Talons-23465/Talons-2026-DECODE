@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -9,15 +9,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
-@TeleOp(name = "RPM PIDF Dashboard Extended", group = "Tutorial")
+@TeleOp(name = "RPM PIDF Dashboard", group = "LAUNCH TUNERS")
 public class RPM_PIDF_Dashboard extends LinearOpMode {
 
     private DcMotorEx leftMotor;
     private DcMotorEx rightMotor;
-    private DcMotorEx intakeMotor;
 
     // REV HD Hex encoder (no gearbox)
-    private static final double TICKS_PER_REV = 112.0;
+    private static final double TICKS_PER_REV = 28;
 
     // Tunable PIDF values (from dashboard)
     public static double kP = 20.0;
@@ -38,12 +37,11 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Hardware mapping
-        leftMotor = hardwareMap.get(DcMotorEx.class, "shoot1");
-        rightMotor = hardwareMap.get(DcMotorEx.class, "shoot2");
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "intake");
+        leftMotor = hardwareMap.get(DcMotorEx.class, "leftLaunch");
+        rightMotor = hardwareMap.get(DcMotorEx.class, "rightLaunch");
 
         // Reset encoders
-        for (DcMotorEx motor : new DcMotorEx[]{leftMotor, rightMotor, intakeMotor}) {
+        for (DcMotorEx motor : new DcMotorEx[]{leftMotor, rightMotor}) {
             motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         }
@@ -56,10 +54,9 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
             // Set directions from dashboard
             leftMotor.setDirection(leftReverse ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
             rightMotor.setDirection(rightReverse ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
-            intakeMotor.setDirection(intakeReverse ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
 
             // Update PIDF for all motors
-            for (DcMotorEx motor : new DcMotorEx[]{leftMotor, rightMotor, intakeMotor}) {
+            for (DcMotorEx motor : new DcMotorEx[]{leftMotor, rightMotor}) {
                 motor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
             }
 
@@ -71,7 +68,6 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
             // Set motor velocities
             leftMotor.setVelocity(leftVelocity);
             rightMotor.setVelocity(rightVelocity);
-            intakeMotor.setVelocity(intakeVelocity);
 
             // Telemetry packet for Dashboard
             TelemetryPacket packet = new TelemetryPacket();
@@ -79,9 +75,11 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
             packet.put("Target RPM Right", targetRPM_right);
             packet.put("Target RPM Intake", targetRPM_intake);
 
+            packet.put("Target Vel Left" , leftVelocity);
+            packet.put("Target Vel Right" , rightVelocity);
+
             packet.put("Left Actual Velocity", leftMotor.getVelocity());
             packet.put("Right Actual Velocity", rightMotor.getVelocity());
-            packet.put("Intake Actual Velocity", intakeMotor.getVelocity());
 
             dashboard.sendTelemetryPacket(packet);
 
@@ -89,9 +87,13 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
             telemetry.addData("Target RPM Left", targetRPM_left);
             telemetry.addData("Target RPM Right", targetRPM_right);
             telemetry.addData("Target RPM Intake", targetRPM_intake);
+
+            telemetry.addData("Left target Vel" , leftVelocity);
+            telemetry.addData("Right target Vel" , rightVelocity);
+
             telemetry.addData("Left Actual Velocity", leftMotor.getVelocity());
             telemetry.addData("Right Actual Velocity", rightMotor.getVelocity());
-            telemetry.addData("Intake Actual Velocity", intakeMotor.getVelocity());
+
             telemetry.update();
         }
     }
