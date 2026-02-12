@@ -114,10 +114,13 @@ public class NewTeleOp extends LinearOpMode{
 //        telemetry.addData("Side", SharedData.side);
 //        telemetry.addData("Robot Centric" , robotCentric);
 //        telemetry.addData("Slow Mode", slowMode);
-//        telemetry.addLine(String.format("LeftVel: %f\nRightVel: %f",hornet.leftLaunch.getVelocity(), hornet.rightLaunch.getVelocity() ));
+       // telemetry.addLine(String.format("LeftVel: %f\nRightVel: %f",hornet.leftLaunch.getVelocity(), hornet.rightLaunch.getVelocity() ));
+        //telemetry.addData("left pos" , hornet.leftLaunch.getCurrentPosition());
+        //telemetry.addData("right pos" , hornet.rightLaunch.getCurrentPosition());
 //        telemetry.addData("targetVelocity" ,hornet.getLaunchTargetVelocity());
 //        telemetry.addData("atTarget" , hornet.atTargetVelocity());
         telemetry.addData("launchTimer", launchTimer.getElapsedTimeSeconds());
+
 //        telemetry.addData("button", hornet.buttonPressed());
 //        telemetry.addData("at sort", hornet.atSortTarget());
 //        telemetry.addData("current ID" , figureID());
