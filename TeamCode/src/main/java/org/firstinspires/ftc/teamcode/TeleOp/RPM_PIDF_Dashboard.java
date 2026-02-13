@@ -5,8 +5,10 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 @Config
 @TeleOp(name = "RPM PIDF Dashboard", group = "LAUNCH TUNERS")
@@ -19,10 +21,17 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
     private static final double TICKS_PER_REV = 28;
 
     // Tunable PIDF values (from dashboard)
-    public static double kP = 20.0;
-    public static double kI = 0.0;
-    public static double kD = 2.0;
-    public static double kF = 12.0;
+    public static double kPr = 20.0;
+    public static double kIr = 0.0;
+    public static double kDr = 2.0;
+    public static double kFr = 12.0;
+
+    public static double kPL = 20.0;
+    public static double kIL = 0.0;
+    public static double kDL = 2.0;
+    public static double kFL = 12.0;
+
+
 
     // Individual target RPMs
     public static double targetRPM_left = 2000;
@@ -56,10 +65,8 @@ public class RPM_PIDF_Dashboard extends LinearOpMode {
             rightMotor.setDirection(rightReverse ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
 
             // Update PIDF for all motors
-            for (DcMotorEx motor : new DcMotorEx[]{leftMotor, rightMotor}) {
-                motor.setVelocityPIDFCoefficients(kP, kI, kD, kF);
-            }
-
+            rightMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER , new PIDFCoefficients(kPr , kIr , kDr , kFr));
+            leftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER , new PIDFCoefficients(kPL , kIL , kDL , kFL));
             // Convert RPM to ticks/sec
             double leftVelocity = rpmToTicksPerSecond(targetRPM_left);
             double rightVelocity = rpmToTicksPerSecond(targetRPM_right);
