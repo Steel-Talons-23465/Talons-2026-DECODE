@@ -252,7 +252,7 @@ public class Auto9Ball extends OpMode {
                     launching = false;
                 }
                 //score 2
-                else if (!f.isBusy()&& pathTimer.getElapsedTimeSeconds() > 6) {
+                else if (!f.isBusy()&& pathTimer.getElapsedTimeSeconds() > 3) {
                     launching = true;
                 }
                 break;

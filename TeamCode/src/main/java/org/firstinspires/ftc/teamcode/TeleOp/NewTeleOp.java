@@ -223,15 +223,15 @@ public class NewTeleOp extends LinearOpMode{
 
         //Launching Controls
         if(gamepad2.dpad_up && SharedData.getGreenIndex() != -1 && !launching) {
-            hornet.setStoragePosOneRotation(SharedData.getGreenIndex(), false);
+            hornet.setStoragePos(SharedData.getGreenIndex(), false);
             launching = true;
         }
         if(gamepad2.dpad_down && SharedData.getPurpleIndex() != -1 && !launching) {
-            hornet.setStoragePosOneRotation(SharedData.getPurpleIndex(), false);
+            hornet.setStoragePos(SharedData.getPurpleIndex(), false);
             launching = true;
         }
         if(gamepad2.dpad_right && !SharedData.isEmpty() && !launching) {
-            hornet.setStoragePosOneRotation(inMotif == SharedData.greenIndex ? (SharedData.getGreenIndex() == -1 ? SharedData.getPurpleIndex() : SharedData.getGreenIndex()) : (SharedData.getPurpleIndex() == -1 ? SharedData.getGreenIndex() : SharedData.getPurpleIndex()), false);
+            hornet.setStoragePos(inMotif == SharedData.greenIndex ? (SharedData.getGreenIndex() == -1 ? SharedData.getPurpleIndex() : SharedData.getGreenIndex()) : (SharedData.getPurpleIndex() == -1 ? SharedData.getGreenIndex() : SharedData.getPurpleIndex()), false);
             launching = true;
         }
         if(dpadLeft2 != gamepad2.dpad_left && gamepad2.dpad_left)
@@ -288,7 +288,7 @@ public class NewTeleOp extends LinearOpMode{
     public void updateSorter(){
         //Choose Launcher Slot
         if(!launching)
-            hornet.setStoragePosOneRotation(!SharedData.isFull() ? (SharedData.storage[0] == ColorSensed.NO_COLOR ? 0 : (SharedData.storage[1] == ColorSensed.NO_COLOR ? 1 : 2)) : 0 , !SharedData.isFull());
+            hornet.setStoragePos(!SharedData.isFull() ? (SharedData.storage[0] == ColorSensed.NO_COLOR ? 0 : (SharedData.storage[1] == ColorSensed.NO_COLOR ? 1 : 2)) : 0 , !SharedData.isFull());
 
         //Manual Color Setting
         if(gamepad2.right_bumper && gamepad2.left_bumper) {

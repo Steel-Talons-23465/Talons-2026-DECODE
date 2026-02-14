@@ -147,7 +147,7 @@ public class Robot {
     public void stopIntake() {intake.setPower(0);}
 
     public void startLaunchMotors(boolean far) {
-         launchTargetVelocity = far ? 1700: 1250;
+         launchTargetVelocity = far ? 1750: 1230;
          leftLaunch.setVelocity(launchTargetVelocity);
          rightLaunch.setVelocity(launchTargetVelocity);
     }
@@ -317,19 +317,21 @@ public class Robot {
          liftLeft.setPosition(lifting ? 1 : .5);
     }
 
+// PIDFS FOR LATER
+//    public void startLaunchMotorsPIDF(boolean far){
+//         launchTargetVelocity = rpmToTicksPerSecond(far ? 1025 : 600);
+//         rightLaunch.setVelocityPIDFCoefficients(20,0,2, 12);
+//         leftLaunch.setVelocityPIDFCoefficients(20,0,2,12);
+//
+//         rightLaunch.setVelocity(launchTargetVelocity);
+//         leftLaunch.setVelocity(launchTargetVelocity);
+//    }
+//
+//    private double rpmToTicksPerSecond(double rpm) {
+//        return ( rpm / 60.0) * 112.0;
+//    }
 
-    public void startLaunchMotorsPIDF(boolean far){
-         launchTargetVelocity = rpmToTicksPerSecond(far ? 1025 : 600);
-         rightLaunch.setVelocityPIDFCoefficients(20,0,2, 12);
-         leftLaunch.setVelocityPIDFCoefficients(20,0,2,12);
 
-         rightLaunch.setVelocity(launchTargetVelocity);
-         leftLaunch.setVelocity(launchTargetVelocity);
-    }
-
-    private double rpmToTicksPerSecond(double rpm) {
-        return ( rpm / 60.0) * 112.0;
-    }
 //    public void getTargetArea(){
 //         if (result.isValid()){
 //
