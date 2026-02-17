@@ -147,13 +147,13 @@ public class Robot {
     public void stopIntake() {intake.setPower(0);}
 
     public void startLaunchMotors(boolean far) {
-         launchTargetVelocity = far ? 1750: 1230;
+         launchTargetVelocity = far ? 2100: 1550;
          leftLaunch.setVelocity(launchTargetVelocity);
          rightLaunch.setVelocity(launchTargetVelocity);
     }
 	
 	public void startLaunchMotorsAlt(boolean far) {
-		launchTargetVelocity = far ? 2000 : 1250;
+		launchTargetVelocity = far ? 2150 : 1550;
 		leftLaunch.setVelocity(launchTargetVelocity);
 		rightLaunch.setVelocity(launchTargetVelocity);
 	}
