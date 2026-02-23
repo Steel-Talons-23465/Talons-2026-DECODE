@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.hornet.Auto;
 
 
 import com.pedropathing.geometry.Pose;
@@ -15,10 +15,10 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.General.ColorSensed;
-import org.firstinspires.ftc.teamcode.General.PoseConstants;
-import org.firstinspires.ftc.teamcode.General.Robot;
-import org.firstinspires.ftc.teamcode.General.SharedData;
+import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
+import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
+import org.firstinspires.ftc.teamcode.hornet.General.Robot;
+import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous (name = "Auto Preload")

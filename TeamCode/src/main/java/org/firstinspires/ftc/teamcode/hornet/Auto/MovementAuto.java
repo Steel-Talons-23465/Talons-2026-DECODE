@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.hornet.Auto;
 
 
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.General.ColorSensed;
-import org.firstinspires.ftc.teamcode.General.PoseConstants;
-import org.firstinspires.ftc.teamcode.General.SharedData;
+import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
+import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
+import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 

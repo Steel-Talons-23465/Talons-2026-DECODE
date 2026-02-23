@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.hornet.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.General.SharedData;
-import org.firstinspires.ftc.teamcode.General.Side;
+import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
+import org.firstinspires.ftc.teamcode.hornet.General.Side;
 
 @TeleOp
 public class Calibration extends LinearOpMode {

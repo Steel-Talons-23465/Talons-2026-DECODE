@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+package org.firstinspires.ftc.teamcode.hornet.TeleOp;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
@@ -10,17 +10,17 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.General.PoseConstants;
+import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 
 
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 
-import org.firstinspires.ftc.teamcode.General.ColorSensed;
-import org.firstinspires.ftc.teamcode.General.Robot;
-import org.firstinspires.ftc.teamcode.General.SharedData;
-import org.firstinspires.ftc.teamcode.General.Side;
+import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
+import org.firstinspires.ftc.teamcode.hornet.General.Robot;
+import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
+import org.firstinspires.ftc.teamcode.hornet.General.Side;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @TeleOp (name = "TeleOp")
