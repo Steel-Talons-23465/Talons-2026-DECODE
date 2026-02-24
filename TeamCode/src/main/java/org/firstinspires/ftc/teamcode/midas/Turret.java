@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.midas;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,16 +17,18 @@ Servo angleLeft = null;
 Servo angleRight = null;
 Limelight3A limelight = null;
 
-int targetVelocity;
-double angle;
+int targetVelocity , targetPos;
 boolean launchActive;
 boolean a;
-boolean b;
-boolean y;
 boolean up;
 boolean down;
 boolean right;
 boolean left;
+boolean trackingEnabled;
+LLResult result;
+double tX, tY;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -58,33 +61,41 @@ boolean left;
             else if(gamepad1.dpad_down && !down)
                 targetVelocity -= 50;
             else if(gamepad1.dpad_right && !right)
-                turret.setTargetPosition(turret.getTargetPosition()-30);
-            else if(gamepad1.dpad_left && !left)
                 turret.setTargetPosition(turret.getTargetPosition()+30);
+            else if(gamepad1.dpad_left && !left)
+                turret.setTargetPosition(turret.getTargetPosition()-30);
             up = gamepad1.dpad_up;
             down = gamepad1.dpad_down;
             right = gamepad1.dpad_right;
             left = gamepad1.dpad_left;
 
-            if(gamepad1.y && !y) {
-                angle += .05;
-                if(angle > 1)
-                    angle = 1;
+
+
+            senseTag();
+
+            trackingEnabled = gamepad1.right_bumper;
+
+            if (tX > 15 && trackingEnabled){
+                targetPos = turret.getCurrentPosition() + targetPos;
+                turret.setTargetPosition(targetPos);
             }
-            else if(gamepad1.b && !b) {
-                angle -= .05;
-                if (angle < 0)
-                    angle = 0;
+            else if (tX < 15 && trackingEnabled){
+                targetPos = turret.getCurrentPosition() - targetPos;
+                turret.setTargetPosition(targetPos);
             }
-            y = gamepad1.y;
-            b = gamepad1.b;
-            setAngle(angle);
+            else if (trackingEnabled){
+                targetPos = turret.getCurrentPosition();
+                turret.setTargetPosition(targetPos);
+            }
+
+
 
             telemetry.addData("Launching", launchActive);
             telemetry.addData("TargetVelocity", targetVelocity);
             telemetry.addData("Velocity", launch.getVelocity());
             telemetry.addData("Turret Pos", turret.getTargetPosition());
-            telemetry.addData("angle", angle);
+
+
             telemetry.update();
 
         }
@@ -98,8 +109,23 @@ boolean left;
         launch.setVelocity(0);
     }
 
-    public void setAngle(double position){
-        angleLeft.setPosition(position);
-        angleRight.setPosition(1-position);
+    public void senseTag(){
+        result = limelight.getLatestResult();
+
+        try {
+            tX = result.getFiducialResults().get(0).getTargetXDegrees();
+            tY = result.getFiducialResults().get(0).getTargetYDegrees();
+            telemetry.addData("Reading Apriltag" , result.getFiducialResults().get(0).getFiducialId() );
+            telemetry.addData("TagX" , tX);
+            telemetry.addData("TagY" , tY);
+
+        }
+        catch (Exception e){
+            telemetry.addData("No AprilTag Detected" , "-1");
+        }
+
     }
+
+
+
 }
