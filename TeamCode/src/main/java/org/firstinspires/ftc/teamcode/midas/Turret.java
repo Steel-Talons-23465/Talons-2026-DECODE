@@ -18,12 +18,16 @@ Servo angleRight = null;
 Limelight3A limelight = null;
 
 int targetVelocity , targetPos;
+double angle;
 boolean launchActive;
 boolean a;
+boolean b;
+boolean y;
 boolean up;
 boolean down;
 boolean right;
 boolean left;
+
 boolean trackingEnabled;
 LLResult result;
 double tX, tY;
@@ -70,6 +74,20 @@ double tX, tY;
             left = gamepad1.dpad_left;
 
 
+            if(gamepad1.y && !y) {
+                angle += .05;
+                if(angle > 1)
+                    angle = 1;
+            }
+            else if(gamepad1.b && !b) {
+                angle -= .05;
+                if (angle < 0)
+                    angle = 0;
+            }
+            y = gamepad1.y;
+            b = gamepad1.b;
+            setAngle(angle);
+
 
             senseTag();
 
@@ -94,7 +112,8 @@ double tX, tY;
             telemetry.addData("TargetVelocity", targetVelocity);
             telemetry.addData("Velocity", launch.getVelocity());
             telemetry.addData("Turret Pos", turret.getTargetPosition());
-
+            telemetry.addData("angle", angle);
+            telemetry.update();
 
             telemetry.update();
 
@@ -126,6 +145,8 @@ double tX, tY;
 
     }
 
-
-
+    public void setAngle(double position){
+        angleLeft.setPosition(position);
+        angleRight.setPosition(1-position);
+    }
 }
