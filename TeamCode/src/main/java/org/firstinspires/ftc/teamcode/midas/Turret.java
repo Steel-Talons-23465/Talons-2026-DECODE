@@ -17,8 +17,11 @@ Servo angleRight = null;
 Limelight3A limelight = null;
 
 int targetVelocity;
+double angle;
 boolean launchActive;
 boolean a;
+boolean b;
+boolean y;
 boolean up;
 boolean down;
 boolean right;
@@ -55,18 +58,33 @@ boolean left;
             else if(gamepad1.dpad_down && !down)
                 targetVelocity -= 50;
             else if(gamepad1.dpad_right && !right)
-                turret.setTargetPosition(turret.getTargetPosition()+30);
-            else if(gamepad1.dpad_left && !left)
                 turret.setTargetPosition(turret.getTargetPosition()-30);
+            else if(gamepad1.dpad_left && !left)
+                turret.setTargetPosition(turret.getTargetPosition()+30);
             up = gamepad1.dpad_up;
             down = gamepad1.dpad_down;
             right = gamepad1.dpad_right;
             left = gamepad1.dpad_left;
 
+            if(gamepad1.y && !y) {
+                angle += .05;
+                if(angle > 1)
+                    angle = 1;
+            }
+            else if(gamepad1.b && !b) {
+                angle -= .05;
+                if (angle < 0)
+                    angle = 0;
+            }
+            y = gamepad1.y;
+            b = gamepad1.b;
+            setAngle(angle);
+
             telemetry.addData("Launching", launchActive);
             telemetry.addData("TargetVelocity", targetVelocity);
             telemetry.addData("Velocity", launch.getVelocity());
             telemetry.addData("Turret Pos", turret.getTargetPosition());
+            telemetry.addData("angle", angle);
             telemetry.update();
 
         }
@@ -78,5 +96,10 @@ boolean left;
     }
     public void stopLaunch(){
         launch.setVelocity(0);
+    }
+
+    public void setAngle(double position){
+        angleLeft.setPosition(position);
+        angleRight.setPosition(1-position);
     }
 }
