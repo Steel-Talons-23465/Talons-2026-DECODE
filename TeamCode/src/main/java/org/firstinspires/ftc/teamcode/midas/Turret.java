@@ -18,7 +18,7 @@ Servo angleRight = null;
 Limelight3A limelight = null;
 
 int targetVelocity , targetPos;
-double angle;
+double angle = .25;
 boolean launchActive;
 boolean a;
 boolean b;
@@ -40,7 +40,7 @@ double tX, tY;
         turret = hardwareMap.get(DcMotorEx.class, "turret");
         angleLeft = hardwareMap.get(Servo.class, "angleLeft");
         angleRight = hardwareMap.get(Servo.class, "angleRight");
-
+        limelight = hardwareMap.get(Limelight3A.class , "limelight");
         launch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launch.setDirection(DcMotorSimple.Direction.REVERSE);
         turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -65,9 +65,9 @@ double tX, tY;
             else if(gamepad1.dpad_down && !down)
                 targetVelocity -= 50;
             else if(gamepad1.dpad_right && !right)
-                turret.setTargetPosition(turret.getTargetPosition()+30);
-            else if(gamepad1.dpad_left && !left)
                 turret.setTargetPosition(turret.getTargetPosition()-30);
+            else if(gamepad1.dpad_left && !left)
+                turret.setTargetPosition(turret.getTargetPosition()+30);
             up = gamepad1.dpad_up;
             down = gamepad1.dpad_down;
             right = gamepad1.dpad_right;
@@ -76,13 +76,13 @@ double tX, tY;
 
             if(gamepad1.y && !y) {
                 angle += .05;
-                if(angle > 1)
-                    angle = 1;
+                if(angle > .65)
+                    angle = .65;
             }
             else if(gamepad1.b && !b) {
                 angle -= .05;
-                if (angle < 0)
-                    angle = 0;
+                if (angle < .25)
+                    angle = .25;
             }
             y = gamepad1.y;
             b = gamepad1.b;
@@ -93,12 +93,12 @@ double tX, tY;
 
             trackingEnabled = gamepad1.right_bumper;
 
-            if (tX > 15 && trackingEnabled){
-                targetPos = turret.getCurrentPosition() + targetPos;
+            if (tX > 1 && trackingEnabled){
+                targetPos = turret.getCurrentPosition() - 1;
                 turret.setTargetPosition(targetPos);
             }
-            else if (tX < 15 && trackingEnabled){
-                targetPos = turret.getCurrentPosition() - targetPos;
+            else if (tX < -1 && trackingEnabled){
+                targetPos = turret.getCurrentPosition() + 1;
                 turret.setTargetPosition(targetPos);
             }
             else if (trackingEnabled){
