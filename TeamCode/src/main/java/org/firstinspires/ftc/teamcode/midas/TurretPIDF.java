@@ -11,30 +11,30 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Config
-@TeleOp (name = "Turret" , group = "Turret")
-public class Turret extends LinearOpMode {
-DcMotorEx launch = null;
-DcMotorEx turret = null;
-Servo angleLeft = null;
-Servo angleRight = null;
-Limelight3A limelight = null;
+@TeleOp (name = "TurretPIDF" , group = "Turret")
+public class TurretPIDF extends LinearOpMode {
+    DcMotorEx launch = null;
+    DcMotorEx turret = null;
+    Servo angleLeft = null;
+    Servo angleRight = null;
+    Limelight3A limelight = null;
 
-int targetVelocity , targetPos;
-double angle = .25;
-boolean launchActive;
-boolean a;
-boolean b;
-boolean y;
-boolean up;
-boolean down;
-boolean right;
-boolean left;
+    int targetVelocity , targetPos;
+    double angle = .25;
+    boolean launchActive;
+    boolean a;
+    boolean b;
+    boolean y;
+    boolean up;
+    boolean down;
+    boolean right;
+    boolean left;
 
-boolean trackingEnabled;
-LLResult result;
-double tX, tY;
-double error, setpoint, currentPosition, totalError, deltaTime, lastError ,deltaError, output   ;
-double kP, kI,kD,kF;
+    boolean trackingEnabled;
+    LLResult result;
+    double tX, tY;
+    double error, setpoint, currentPosition, totalError, deltaTime, lastError ,deltaError, output   ;
+    double kP, kI,kD,kF;
 
 
     @Override
@@ -48,7 +48,7 @@ double kP, kI,kD,kF;
         launch.setDirection(DcMotorSimple.Direction.REVERSE);
         turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turret.setTargetPosition(0);
-        turret.setPower(.75);
+        turret.setPower(.05);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         limelight.start();
         waitForStart();
@@ -107,8 +107,16 @@ double kP, kI,kD,kF;
             lastError = error;
 
 
-            if (Math.abs(tX) > 1 && trackingEnabled){
-                targetPos = turret.getCurrentPosition() - (int)(5.771*tX);
+            if (tX > 1 && trackingEnabled){
+                targetPos = turret.getCurrentPosition() - 30;
+                turret.setTargetPosition(targetPos);
+            }
+            else if (tX < -1 && trackingEnabled){
+                targetPos = turret.getCurrentPosition() + 30;
+                turret.setTargetPosition(targetPos);
+            }
+            else if (trackingEnabled){
+                targetPos = turret.getCurrentPosition();
                 turret.setTargetPosition(targetPos);
             }
             else {

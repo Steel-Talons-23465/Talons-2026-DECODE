@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Configurable
-@TeleOp(name = "RPM PIDF Panels", group = "LAUNCHING TUNERS")
+@TeleOp(name = "RPM PIDF Panels", group = "LAUNCH TUNERS")
 public class RPM_PIDF_PANELS extends LinearOpMode {
 
     private DcMotorEx leftMotor;
