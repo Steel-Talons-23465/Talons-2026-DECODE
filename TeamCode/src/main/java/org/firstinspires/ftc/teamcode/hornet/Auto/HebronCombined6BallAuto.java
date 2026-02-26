@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+@Disabled
 
 @Autonomous (name = "Combined 6Ball")
 public class HebronCombined6BallAuto extends OpMode {

@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Configurable
-public class Constants {
+public class HornetConstants {
 
 
     public static FollowerConstants followerConstants = new FollowerConstants()

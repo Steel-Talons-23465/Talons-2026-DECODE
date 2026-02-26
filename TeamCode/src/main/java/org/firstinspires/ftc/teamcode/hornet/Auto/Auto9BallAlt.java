@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.hornet.Auto;
 
-
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
@@ -11,6 +10,7 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+@Disabled
 
 @Autonomous (name = "9 alt auto")
 public class Auto9BallAlt extends OpMode {

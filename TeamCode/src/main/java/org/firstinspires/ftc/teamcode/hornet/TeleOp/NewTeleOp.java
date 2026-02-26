@@ -6,6 +6,7 @@ import com.pedropathing.geometry.BezierLine;
 
 
 import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,8 +21,9 @@ import com.pedropathing.paths.PathChain;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.hornet.General.Side;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
+import org.firstinspires.ftc.teamcode.pedroPathing.HornetConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.HornetConstants;
+@Disabled
 @TeleOp(name = "New TeleOp")
 public class NewTeleOp extends LinearOpMode{
     private Robot hornet = new Robot();
@@ -45,7 +47,7 @@ public class NewTeleOp extends LinearOpMode{
 
     public void runOpMode(){
         hornet.initialize(hardwareMap);
-        f = Constants.createFollower(hardwareMap);
+        f = HornetConstants.createFollower(hardwareMap);
         f.setStartingPose(SharedData.toTeleopPose == null ? poses.START_POSE : SharedData.toTeleopPose);
         f.update();
         launchTimer = new Timer();

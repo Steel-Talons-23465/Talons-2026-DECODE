@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hornet.Auto;
 
+
 import com.pedropathing.geometry.Pose;
 
 import com.bylazar.telemetry.PanelsTelemetry;
@@ -11,15 +12,18 @@ import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.hornet.General.TwelveBallPoseConstants;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.HornetConstants;
+@Disabled
 
-//@Autonomous (name = "12Auto")
+@Autonomous(name = "12Auto")
 public class Auto12Ball extends OpMode {
 
     private Robot hornet = new Robot();

@@ -98,13 +98,13 @@ double kP, kI,kD,kF;
 
 
 
-            error = setpoint - currentPosition;
-            totalError += error * deltaTime; // Integral term
-            deltaError = (error - lastError) / deltaTime; // Derivative term
-
-            output = (kP * error) + (kI * totalError) + (kD * deltaError) + kF;
-
-            lastError = error;
+//            error = setpoint - currentPosition;
+//            totalError += error * deltaTime; // Integral term
+//            deltaError = (error - lastError) / deltaTime; // Derivative term
+//
+//            output = (kP * error) + (kI * totalError) + (kD * deltaError) + kF;
+//
+//            lastError = error;
 
 
             if (Math.abs(tX) > 1 && trackingEnabled){

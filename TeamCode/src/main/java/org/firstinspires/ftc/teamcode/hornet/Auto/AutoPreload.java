@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+@Disabled
 
 @Autonomous (name = "Auto Preload")
 public class AutoPreload extends OpMode {
