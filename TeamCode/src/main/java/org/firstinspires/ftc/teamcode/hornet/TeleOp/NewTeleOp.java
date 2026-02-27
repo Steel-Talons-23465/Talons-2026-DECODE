@@ -184,7 +184,7 @@ public class NewTeleOp extends LinearOpMode{
             else if (gamepad2.b && !gamepad2.right_bumper && !gamepad2.left_bumper ){
                 f.followPath(goToFar(true));
                 setPose = AutoPathStates.FAR_ALT;
-            }
+             }
             //go to gate
             else if ((gamepad1.y ||(gamepad2.y && !gamepad2.right_bumper && !gamepad2.left_bumper))) {
                 f.followPath(goToGate());

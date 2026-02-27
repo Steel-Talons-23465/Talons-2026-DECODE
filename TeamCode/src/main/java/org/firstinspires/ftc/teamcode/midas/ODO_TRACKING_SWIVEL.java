@@ -67,7 +67,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             turret.setTargetPosition(currentPos + deltaTicks);
 
             if (Math.signum(angleVel) >= 0){
-                delta -= angleVel/5.771;
+                 delta -= angleVel/5.771;
             }
             else if (Math.signum(angleVel) < 0){
                 delta += angleVel/5.771;
