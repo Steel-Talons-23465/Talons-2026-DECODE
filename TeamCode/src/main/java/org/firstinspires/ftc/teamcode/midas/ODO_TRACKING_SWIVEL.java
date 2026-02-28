@@ -53,7 +53,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             telemetry.addData("Vel" , f.getVelocity());
             telemetry.update();
 
-            double turnLimit = Math.toRadians(goalAngle + 180);
+            double turnLimit = goalAngle + Math.PI;
             if (f.getHeading() <= turnLimit) {
                 delta = -Math.abs(f.getHeading() - goalAngle);
             }
