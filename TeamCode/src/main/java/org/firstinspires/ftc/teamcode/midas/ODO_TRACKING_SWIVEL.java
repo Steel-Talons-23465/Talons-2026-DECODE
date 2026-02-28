@@ -34,7 +34,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         turret.setTargetPosition(0);
         turret.setPower(.75);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        
         f.setStartingPose(poses.START_POSE);
 
         waitForStart();
@@ -42,7 +42,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
         while (opModeIsActive()){
             f.update();
-
+            currentPos = turret.getCurrentPosition();
             angleVel = f.getAngularVelocity();
             vel = f.getVelocity();
             updateMovement();
