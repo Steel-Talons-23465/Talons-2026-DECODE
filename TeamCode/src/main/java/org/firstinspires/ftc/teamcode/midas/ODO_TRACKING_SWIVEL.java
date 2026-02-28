@@ -12,18 +12,23 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.hornet.General.Side;
+import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
 
 public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
     private Follower f;
     private PoseConstants poses = new PoseConstants();
+    private MidasPoseConstants midasPoses = new MidasPoseConstants();
     private DcMotorEx turret = null;
     private double goalAngle, delta, speedMultiplier, adjustAngle, angleVel, tX, tY;
+    private double theta, diffX, diffY;
     private Vector vel = new Vector(new Pose(0,0,0));
-    private int deltaTicks, currentPos, targetPos;
+    private int currentPos;
+    private int deltaTicks, odoTicks, tagTicks;
     private Limelight3A limelight = null;
     private LLResult result;
+    boolean odo, tag, heading, off;
     private boolean tagTracking;
 
 
@@ -34,7 +39,8 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         turret.setTargetPosition(0);
         turret.setPower(.75);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
+        goalAngle = midasPoses.goal.getHeading();
+        limelight.start();
         f.setStartingPose(poses.START_POSE);
 
         waitForStart();
@@ -46,49 +52,76 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             angleVel = f.getAngularVelocity();
             vel = f.getVelocity();
             updateMovement();
+            if (gamepad1.a && !heading){
+                trackingWithHeading(true);
+                trackingWithOdo(false);
+                trackingWithTag(false);
+            }
+            else if (gamepad1.b && !odo){
+                trackingWithHeading(false);
+                trackingWithOdo(true);
+                trackingWithTag(false);
+            }
+            else if (gamepad1.y && !tag){
+                trackingWithHeading(false);
+                trackingWithOdo(false);
+                trackingWithTag(true);
+            } else if (gamepad1.x && !off)
+            {
+                trackingWithTag(false);
+                trackingWithOdo(false);
+                trackingWithHeading(false);
+            }
+            odo = gamepad1.b;
+            heading = gamepad1.a;
+            tag = gamepad1.y;
+            off = gamepad1.x;
 
-            goalAngle = SharedData.side == Side.RED ? Math.toRadians(35) : Math.toRadians(145) ;
 
+
+
+        }
+
+        }
+
+    private void trackingWithOdo(boolean usingOdo) {
+        if (usingOdo){
+
+            diffX = midasPoses.goal.getX() - f.getPose().getX();
+            diffY = midasPoses.goal.getX() - f.getPose().getY();
+            theta = Math.atan2( diffY, diffX );
+            odoTicks =  (int) (theta*5.771);
+            turret.setTargetPosition(odoTicks);
+
+        }
+    }
+
+    private void trackingWithTag(boolean usingTag){
+            if (usingTag) {
+                senseTag();
+                if (Math.abs(tX) > 1) {
+                    tagTicks = currentPos - (int) (5.771 * tX);
+                    turret.setTargetPosition(tagTicks);
+                }
+            }
+        }
+
+        private void trackingWithHeading(boolean usingHeading){
+        if (usingHeading) {
             telemetry.addData("AngVel", f.getAngularVelocity());
-            telemetry.addData("Vel" , f.getVelocity());
+            telemetry.addData("Vel", f.getVelocity());
             telemetry.update();
 
             double turnLimit = goalAngle + Math.PI;
             if (f.getHeading() <= turnLimit) {
                 delta = -Math.abs(f.getHeading() - goalAngle);
-            }
-            else if (f.getHeading() > turnLimit) {
+            } else if (f.getHeading() > turnLimit) {
                 delta = Math.abs(f.getHeading() - goalAngle);
-            }
-            else delta = 0;
+            } else delta = 0;
             //if we're between shooting poses, set turret stop;
 
-            deltaTicks = (int) (delta*5.771);
-            turret.setTargetPosition(currentPos + deltaTicks);
-
-            if (Math.signum(angleVel) >= 0){
-                 delta -= angleVel/5.771;
-            }
-            else if (Math.signum(angleVel) < 0){
-                delta += angleVel/5.771;
-            }
-            deltaTicks =  (int) (delta*5.771);
-            turret.setTargetPosition(currentPos + deltaTicks);
-
-            if (gamepad1.aWasPressed()){
-                tagTracking = !tagTracking;
-            }
-            if (Math.abs(tX) > 1 && tagTracking){
-                targetPos = turret.getCurrentPosition() - (int)(5.771*tX);
-                turret.setTargetPosition(targetPos);
-            }
-            else {
-                targetPos = turret.getTargetPosition();
-                turret.setTargetPosition(targetPos);
-            }
-
-
-
+            deltaTicks = (int) (delta * 5.771);
+            turret.setTargetPosition(deltaTicks);
 
         }
 
