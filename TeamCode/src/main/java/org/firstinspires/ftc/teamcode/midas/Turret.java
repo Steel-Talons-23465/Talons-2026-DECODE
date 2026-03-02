@@ -157,7 +157,7 @@ double kP, kI,kD,kF;
     }
 
     public void setAngle(double position){
-        angleLeft.setPosition(position);
-        angleRight.setPosition(1-position);
+        angleLeft.setPosition(position); //0 -.6
+        angleRight.setPosition(1-position); //.25-1
     }
 }

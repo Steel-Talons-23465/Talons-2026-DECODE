@@ -88,7 +88,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         if (usingOdo){
 
             diffX = midasPoses.goal.getX() - f.getPose().getX();
-            diffY = midasPoses.goal.getX() - f.getPose().getY();
+            diffY = midasPoses.goal.getY() - f.getPose().getY();
             theta = Math.atan2( diffY, diffX );
             odoTicks =  (int) (theta*5.771);
             turret.setTargetPosition(odoTicks);
@@ -121,6 +121,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             //if we're between shooting poses, set turret stop;
 
             deltaTicks = (int) (delta * 5.771);
+            //if target ticks is above upper bound then subtract 1 rotation and vice-versa
             turret.setTargetPosition(deltaTicks);
 
         }
