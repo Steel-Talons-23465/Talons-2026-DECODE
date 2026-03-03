@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.hornet.General.Side;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.HornetConstants;
 
 @TeleOp (name = "TeleOp")
 public class TeleOpAllInOne extends LinearOpMode{
@@ -54,7 +54,7 @@ public class TeleOpAllInOne extends LinearOpMode{
     public void runOpMode() throws InterruptedException
     {
         hornet.initialize(hardwareMap);
-        f = Constants.createFollower(hardwareMap);
+        f = HornetConstants.createFollower(hardwareMap);
         f.setStartingPose(SharedData.toTeleopPose == null ? poses.START_POSE : SharedData.toTeleopPose);
         f.update();
         launchTimer = new Timer();

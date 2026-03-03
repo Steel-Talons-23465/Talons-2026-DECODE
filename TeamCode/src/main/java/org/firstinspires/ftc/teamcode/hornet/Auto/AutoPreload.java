@@ -13,13 +13,14 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.hornet.General.ColorSensed;
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.hornet.General.Robot;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.pedroPathing.HornetConstants;
 @Disabled
 
 @Autonomous (name = "Auto Preload")
@@ -50,7 +51,7 @@ public class AutoPreload extends OpMode {
         opmodeTimer.resetTimer();
         limelight = hardwareMap.get(Limelight3A.class , "limelight");
 
-        f = Constants.createFollower(hardwareMap);
+        f = HornetConstants.createFollower(hardwareMap);
         f.setStartingPose(poses.START_POSE);
         buildPaths();
         hornet.resetHammer();

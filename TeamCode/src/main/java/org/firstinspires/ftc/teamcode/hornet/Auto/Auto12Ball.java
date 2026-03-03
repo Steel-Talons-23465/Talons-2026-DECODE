@@ -51,7 +51,7 @@ public class Auto12Ball extends OpMode {
         opmodeTimer.resetTimer();
         limelight = hardwareMap.get(Limelight3A.class , "limelight");
 
-        f = Constants.createFollower(hardwareMap);
+        f = HornetConstants.createFollower(hardwareMap);
         f.setStartingPose(poses.START_POSE);
         buildPaths();
         hornet.disableLED();

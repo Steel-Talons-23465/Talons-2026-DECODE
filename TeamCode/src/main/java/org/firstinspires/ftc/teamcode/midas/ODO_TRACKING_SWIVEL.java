@@ -6,6 +6,7 @@ import com.pedropathing.math.Vector;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.hornet.General.Side;
 import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
 
+@TeleOp
 public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
     private Follower f;
@@ -40,6 +42,8 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         turret.setPower(.75);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         goalAngle = midasPoses.goal.getHeading();
+        limelight = hardwareMap.get(Limelight3A.class , "limelight");
+
         limelight.start();
         f.setStartingPose(poses.START_POSE);
 
@@ -78,8 +82,17 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             off = gamepad1.x;
 
 
+            if (turret.getTargetPositionTolerance() >= 1250){
+                turret.setTargetPosition(2550);
+            }
+            else if (turret.getTargetPosition() <= -775){
+                turret.setTargetPosition(-775);
+            }
 
 
+//2597 = 1.25 rotation direction (ccw);
+//1558 = .75 rotation direction cw
+//
         }
 
         }
