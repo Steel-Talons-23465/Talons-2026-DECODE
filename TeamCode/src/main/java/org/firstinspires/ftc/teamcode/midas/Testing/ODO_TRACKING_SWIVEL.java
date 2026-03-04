@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.midas;
+package org.firstinspires.ftc.teamcode.midas.Testing;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
@@ -11,8 +11,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
-import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
-import org.firstinspires.ftc.teamcode.hornet.General.Side;
 import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
 
@@ -35,6 +33,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
 
     public void runOpMode() throws InterruptedException{
+
         f = MidasConstants.createFollower(hardwareMap);
         turret = hardwareMap.get(DcMotorEx.class , "turret");
         turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -75,6 +74,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
                 trackingWithTag(false);
                 trackingWithOdo(false);
                 trackingWithHeading(false);
+                telemetry.addData("currently" , "nothing");
             }
             odo = gamepad1.b;
             heading = gamepad1.a;
@@ -82,13 +82,15 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             off = gamepad1.x;
 
 
-            if (turret.getTargetPositionTolerance() >= 1250){
+            if (turret.getTargetPosition() >= 1250){
                 turret.setTargetPosition(2550);
             }
             else if (turret.getTargetPosition() <= -775){
                 turret.setTargetPosition(-775);
             }
 
+            telemetry.addData("currentPos" , turret.getCurrentPosition());
+            telemetry.update();
 
 //2597 = 1.25 rotation direction (ccw);
 //1558 = .75 rotation direction cw
@@ -105,6 +107,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             theta = Math.atan2( diffY, diffX );
             odoTicks =  (int) (theta*5.771);
             turret.setTargetPosition(odoTicks);
+            telemetry.addData("currently" , "odo");
 
         }
     }
@@ -116,14 +119,19 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
                     tagTicks = currentPos - (int) (5.771 * tX);
                     turret.setTargetPosition(tagTicks);
                 }
+                else {
+                    turret.setTargetPosition(tagTicks);
+                telemetry.addData("currently" , "tag");
+
             }
         }
 
         private void trackingWithHeading(boolean usingHeading){
         if (usingHeading) {
+            telemetry.addData("currently" , "heading");
+
             telemetry.addData("AngVel", f.getAngularVelocity());
             telemetry.addData("Vel", f.getVelocity());
-            telemetry.update();
 
             double turnLimit = goalAngle + Math.PI;
             if (f.getHeading() <= turnLimit) {
