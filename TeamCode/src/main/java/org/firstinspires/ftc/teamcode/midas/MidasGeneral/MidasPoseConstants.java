@@ -8,6 +8,6 @@ import org.firstinspires.ftc.teamcode.hornet.General.Side;
 public class MidasPoseConstants {
     public Pose goal = SharedData.side == Side.RED ? new Pose(136, 12, Math.toRadians(145)) : new Pose(12,  136, Math.toRadians(35)) ;
 
-
+    public Pose StartPose = SharedData.side == Side.RED ?new Pose(56.75,9.36, Math.toRadians(90)) : new Pose(87.25,8.75, Math.toRadians(90));
 
 }

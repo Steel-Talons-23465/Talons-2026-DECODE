@@ -29,7 +29,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
     private Limelight3A limelight = null;
     private LLResult result;
     boolean odo, tag, heading, off;
-    private boolean tagTracking;
+    boolean isOdo, isTag, isHeading, isOff;
 
 
     public void runOpMode() throws InterruptedException{
@@ -44,7 +44,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         limelight = hardwareMap.get(Limelight3A.class , "limelight");
 
         limelight.start();
-        f.setStartingPose(poses.START_POSE);
+        f.setStartingPose(midasPoses.StartPose);
 
         waitForStart();
         f.startTeleOpDrive(true);
@@ -56,26 +56,33 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             vel = f.getVelocity();
             updateMovement();
             if (gamepad1.a && !heading){
-                trackingWithHeading(true);
-                trackingWithOdo(false);
-                trackingWithTag(false);
+                isOdo = false;
+                isHeading=true;
+                isTag=false;
             }
             else if (gamepad1.b && !odo){
-                trackingWithHeading(false);
-                trackingWithOdo(true);
-                trackingWithTag(false);
+                isOdo = true;
+                isHeading=false;
+                isTag=false;
             }
             else if (gamepad1.y && !tag){
-                trackingWithHeading(false);
-                trackingWithOdo(false);
-                trackingWithTag(true);
+                isOdo = false;
+                isHeading=false;
+                isTag=true;
             } else if (gamepad1.x && !off)
             {
-                trackingWithTag(false);
-                trackingWithOdo(false);
-                trackingWithHeading(false);
+                isOdo = false;
+                isHeading=false;
+                isTag=false;
                 telemetry.addData("currently" , "nothing");
             }
+
+            trackingWithHeading(isHeading);
+            trackingWithOdo(isOdo);
+            trackingWithTag(isTag);
+
+
+
             odo = gamepad1.b;
             heading = gamepad1.a;
             tag = gamepad1.y;
@@ -88,6 +95,10 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             else if (turret.getTargetPosition() <= -775){
                 turret.setTargetPosition(-775);
             }
+            telemetry.addData("odo" ,odo );
+            telemetry.addData("tag", tag);
+            telemetry.addData("heading ", heading);
+            telemetry.addData("off ", off);
 
             telemetry.addData("currentPos" , turret.getCurrentPosition());
             telemetry.update();
@@ -112,43 +123,43 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         }
     }
 
-    private void trackingWithTag(boolean usingTag){
-            if (usingTag) {
-                senseTag();
-                if (Math.abs(tX) > 1) {
-                    tagTicks = currentPos - (int) (5.771 * tX);
-                    turret.setTargetPosition(tagTicks);
-                }
-                else {
-                    turret.setTargetPosition(tagTicks);
-                telemetry.addData("currently" , "tag");
+    private void trackingWithTag(boolean usingTag) {
+        if (usingTag) {
+            senseTag();
+            if (Math.abs(tX) > 1) {
+                tagTicks = currentPos - (int) (5.771 * tX);
+                turret.setTargetPosition(tagTicks);
+            } else {
+                turret.setTargetPosition(tagTicks);
+                telemetry.addData("currently", "tag");
 
             }
         }
+    }
 
-        private void trackingWithHeading(boolean usingHeading){
-        if (usingHeading) {
-            telemetry.addData("currently" , "heading");
+        private void trackingWithHeading ( boolean usingHeading){
+            if (usingHeading) {
+                telemetry.addData("currently", "heading");
 
-            telemetry.addData("AngVel", f.getAngularVelocity());
-            telemetry.addData("Vel", f.getVelocity());
+                telemetry.addData("AngVel", f.getAngularVelocity());
+                telemetry.addData("Vel", f.getVelocity());
 
-            double turnLimit = goalAngle + Math.PI;
-            if (f.getHeading() <= turnLimit) {
-                delta = -Math.abs(f.getHeading() - goalAngle);
-            } else if (f.getHeading() > turnLimit) {
-                delta = Math.abs(f.getHeading() - goalAngle);
-            } else delta = 0;
-            //if we're between shooting poses, set turret stop;
+                double turnLimit = goalAngle + Math.PI;
+                if (f.getHeading() <= turnLimit) {
+                    delta = -Math.abs(f.getHeading() - goalAngle);
+                } else if (f.getHeading() > turnLimit) {
+                    delta = Math.abs(f.getHeading() - goalAngle);
+                } else delta = 0;
+                //if we're between shooting poses, set turret stop;
 
-            deltaTicks = (int) (delta * 5.771);
-            //if target ticks is above upper bound then subtract 1 rotation and vice-versa
-            turret.setTargetPosition(deltaTicks);
+                deltaTicks = (int) (delta * 5.771);
+                //if target ticks is above upper bound then subtract 1 rotation and vice-versa
+                turret.setTargetPosition(deltaTicks);
+
+            }
 
         }
-
-        }
-        private void updateMovement(){
+        private void updateMovement () {
 
             f.setTeleOpDrive(
                     -gamepad1.left_stick_y * speedMultiplier,
@@ -157,34 +168,31 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
                     true,
                     0);
 
-            if(gamepad1.left_trigger >= .2)
+            if (gamepad1.left_trigger >= .2)
                 speedMultiplier = .2;
             else
                 speedMultiplier = 1;
         }
 
 
-    public void senseTag(){
-        result = limelight.getLatestResult();
+        public void senseTag () {
+            result = limelight.getLatestResult();
 
-        try {
-            tX = result.getFiducialResults().get(0).getTargetXDegrees();
-            tY = result.getFiducialResults().get(0).getTargetYDegrees();
-            telemetry.addData("Reading Apriltag" , result.getFiducialResults().get(0).getFiducialId() );
-            telemetry.addData("TagX" , tX);
-            telemetry.addData("TagY" , tY);
+            try {
+                tX = result.getFiducialResults().get(0).getTargetXDegrees();
+                tY = result.getFiducialResults().get(0).getTargetYDegrees();
+                telemetry.addData("Reading Apriltag", result.getFiducialResults().get(0).getFiducialId());
+                telemetry.addData("TagX", tX);
+                telemetry.addData("TagY", tY);
+
+            } catch (Exception e) {
+                tX = 0;
+                tY = 0;
+                telemetry.addData("No AprilTag Detected", "-1");
+            }
 
         }
-        catch (Exception e){
-            tX = 0;
-            tY = 0;
-            telemetry.addData("No AprilTag Detected" , "-1");
-        }
+
 
     }
 
-
-
-
-
-}
