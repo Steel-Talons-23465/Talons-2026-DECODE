@@ -21,7 +21,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
     private PoseConstants poses = new PoseConstants();
     private MidasPoseConstants midasPoses = new MidasPoseConstants();
     private DcMotorEx turret = null;
-    private double goalAngle, delta, speedMultiplier, adjustAngle, angleVel, tX, tY;
+    private double goalAngle, delta, speedMultiplier, tX, tY;
     private double theta, diffX, diffY;
     private Vector vel = new Vector(new Pose(0,0,0));
     private int currentPos;
@@ -38,7 +38,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         turret = hardwareMap.get(DcMotorEx.class , "turret");
         turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turret.setTargetPosition(0);
-        turret.setPower(.75);
+        turret.setPower(1);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         goalAngle = midasPoses.goal.getHeading();
         limelight = hardwareMap.get(Limelight3A.class , "limelight");
@@ -52,7 +52,6 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         while (opModeIsActive()){
             f.update();
             currentPos = turret.getCurrentPosition();
-            angleVel = f.getAngularVelocity();
             vel = f.getVelocity();
             updateMovement();
             if (gamepad1.a && !heading){
@@ -89,12 +88,8 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             off = gamepad1.x;
 
 
-            if (turret.getTargetPosition() >= 1250){
-                turret.setTargetPosition(2550);
-            }
-            else if (turret.getTargetPosition() <= -775){
-                turret.setTargetPosition(-775);
-            }
+
+
             telemetry.addData("odo" ,odo );
             telemetry.addData("tag", tag);
             telemetry.addData("heading ", heading);
@@ -127,7 +122,15 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         if (usingTag) {
             senseTag();
             if (Math.abs(tX) > 1) {
-                tagTicks = currentPos - (int) (5.771 * tX);
+                if(Math.abs(currentPos - turret.getTargetPosition()) < 120)
+                    tagTicks = currentPos - (int) (5.771 * tX);
+                if (tagTicks >= 2400){
+                    tagTicks = tagTicks-2077;
+                }
+                else if (turret.getTargetPosition() <= -775){
+                    tagTicks = tagTicks+2077;
+
+                }
                 turret.setTargetPosition(tagTicks);
             } else {
                 turret.setTargetPosition(tagTicks);

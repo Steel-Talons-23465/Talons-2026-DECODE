@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hornet.TeleOp;
+package org.firstinspires.ftc.teamcode.midas.MidasGeneral;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -11,14 +11,11 @@ import org.firstinspires.ftc.teamcode.hornet.General.Side;
 @TeleOp
 public class MidasCalibration extends LinearOpMode {
 
-    DcMotorEx fan = null;
     boolean shootF;
     boolean startF;
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
-        fan = hardwareMap.get(DcMotorEx.class, "fan");
-        fan.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         SharedData.reset();
         while(opModeIsActive())
         {
