@@ -52,7 +52,7 @@ import java.util.List;
  * @version 1.0, 6/26/2025
  */
 @Configurable
-@TeleOp(name = "Tuning", group = "Pedro Pathing")
+@TeleOp(name = "Tuning Midas", group = "Pedro Pathing")
 public class Tuning extends SelectableOpMode {
     public static Follower follower;
 
@@ -101,7 +101,7 @@ public class Tuning extends SelectableOpMode {
             follower = HornetConstants.createFollower(hardwareMap);
             PanelsConfigurables.INSTANCE.refreshClass(this);
         } else {
-            follower = HornetConstants.createFollower(hardwareMap);
+            follower = MidasConstants.createFollower(hardwareMap);
         }
 
         follower.setStartingPose(new Pose());

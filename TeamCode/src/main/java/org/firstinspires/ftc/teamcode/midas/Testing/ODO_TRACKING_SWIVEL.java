@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
@@ -108,10 +109,18 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
     private void trackingWithOdo(boolean usingOdo) {
         if (usingOdo){
 
-            diffX = midasPoses.goal.getX() - f.getPose().getX();
-            diffY = midasPoses.goal.getY() - f.getPose().getY();
-            theta = Math.atan2( diffY, diffX );
-            odoTicks =  (int) (theta*5.771);
+            diffX = -midasPoses.goal.getX() + f.getPose().getX();
+            diffY = -midasPoses.goal.getY() + f.getPose().getY();
+            theta = (-f.getPose().getHeading() - Math.atan2(diffY, diffX))*180/Math.PI;
+            telemetry.addData("angle", theta);
+            odoTicks =  (int) ((theta-90)*5.771);
+
+            if (odoTicks >= 2400){
+                odoTicks = odoTicks-2077;
+            }
+            else if (turret.getTargetPosition() <= -775){
+                odoTicks = odoTicks+2077;
+            }
             turret.setTargetPosition(odoTicks);
             telemetry.addData("currently" , "odo");
 
