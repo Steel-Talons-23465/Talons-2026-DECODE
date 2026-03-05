@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.midas.Testing;
 
+import static org.firstinspires.ftc.teamcode.hornet.General.Side.RED;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.Vector;
@@ -12,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
+import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
 
@@ -97,6 +100,10 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             telemetry.addData("off ", off);
 
             telemetry.addData("currentPos" , turret.getCurrentPosition());
+
+            telemetry.addData("fx", f.getPose().getX());
+            telemetry.addData("fy", f.getPose().getY());
+            telemetry.addData("fh", f.getPose().getHeading());
             telemetry.update();
 
 //2597 = 1.25 rotation direction (ccw);
@@ -109,11 +116,12 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
     private void trackingWithOdo(boolean usingOdo) {
         if (usingOdo){
 
-            diffX = -midasPoses.goal.getX() + f.getPose().getX();
-            diffY = -midasPoses.goal.getY() + f.getPose().getY();
-            theta = (-f.getPose().getHeading() - Math.atan2(diffY, diffX))*180/Math.PI;
+            diffX = Math.abs(midasPoses.goal.getX() - f.getPose().getX());
+            diffY = Math.abs(midasPoses.goal.getY() - f.getPose().getY());
+            telemetry.addData("theta" , ((SharedData.side == RED ? -1 : 1)*(Math.atan2(diffX, diffY)*180/Math.PI)));
+            theta = (-f.getPose().getHeading()*180/Math.PI + 90 + ((SharedData.side == RED ? -1 : 1)*(Math.atan2(diffX, diffY)*180/Math.PI)));
             telemetry.addData("angle", theta);
-            odoTicks =  (int) ((theta-90)*5.771);
+            odoTicks =  (int) ((theta)*5.771);
 
             if (odoTicks >= 2400){
                 odoTicks = odoTicks-2077;
