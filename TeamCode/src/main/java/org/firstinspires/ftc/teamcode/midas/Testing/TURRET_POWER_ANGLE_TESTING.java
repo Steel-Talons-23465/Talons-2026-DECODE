@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.midas.Testing;
 
 import static org.firstinspires.ftc.teamcode.hornet.General.Side.RED;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.Vector;
@@ -11,6 +14,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
@@ -18,15 +23,17 @@ import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
 import org.firstinspires.ftc.teamcode.hornet.General.Side;
 import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
-
+@Config
 @TeleOp
-        (name = "TURRET TRACKING" , group = "TURRET TUNERS")
-public class ODO_TRACKING_SWIVEL extends LinearOpMode {
+public class TURRET_POWER_ANGLE_TESTING extends LinearOpMode {
 
     private Follower f;
     private PoseConstants poses = new PoseConstants();
     private MidasPoseConstants midasPoses = new MidasPoseConstants();
-    private DcMotorEx turret = null;
+    DcMotorEx launch = null;
+    DcMotorEx turret = null;
+    Servo angleLeft = null;
+    Servo angleRight = null;
     private double speedMultiplier, tX, tY;
     private double theta, diffX, diffY;
     private Vector vel = new Vector(new Pose(0,0,0));
@@ -37,20 +44,37 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
     boolean odo, tag, heading, off;
     boolean isOdo, isTag, aprilTagDetected;
 
+    public static boolean launching;
+    public static double launchVelocity;
+    public static double angleHood = .25;
+
+    double hoodAngle = .25;
+
+
 
     public void runOpMode() throws InterruptedException{
 
         f = MidasConstants.createFollower(hardwareMap);
+
+        launch = hardwareMap.get(DcMotorEx.class, "launch");
+        launch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        launch.setDirection(DcMotorSimple.Direction.REVERSE);
+        angleLeft = hardwareMap.get(Servo.class, "angleLeft");
+        angleRight = hardwareMap.get(Servo.class, "angleRight");
+
         turret = hardwareMap.get(DcMotorEx.class , "turret");
         turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turret.setTargetPosition(0);
-        turret.setPower(1);
+        turret.setVelocity(0);
         turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         limelight = hardwareMap.get(Limelight3A.class , "limelight");
 
         limelight.start();
         limelight.pipelineSwitch(SharedData.side == Side.RED ? 1 : 2);
         f.setStartingPose(midasPoses.StartPose);
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
 
         waitForStart();
         f.startTeleOpDrive(true);
@@ -75,6 +99,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
                 isTag=false;
                 telemetry.addData("currently" , "nothing");
             }
+
             trackingWithOdo(isOdo);
             trackingWithTag(isTag);
 
@@ -86,6 +111,29 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             off = gamepad1.x;
 
 
+            hoodAngle = angleHood;
+            if(hoodAngle > .65)
+                hoodAngle = .65;
+            if (hoodAngle < .25)
+                hoodAngle = .25;
+            setHoodAngle(hoodAngle);
+
+            if(launching)
+                setLaunchVelocity(launchVelocity);
+            else
+                setLaunchVelocity(0);
+
+
+            double odoDistance = Math.sqrt(Math.pow(midasPoses.goal.getX() - f.getPose().getX(),2) + Math.pow(midasPoses.goal.getY() - f.getPose().getY(),2));
+
+
+            TelemetryPacket packet = new TelemetryPacket();
+            packet.put("Target Velocity", launchVelocity);
+            packet.put("Actual Velocity", launch.getVelocity());
+            packet.put("Hood Angle", hoodAngle);
+            packet.put("Launching", launching);
+            packet.put("Odo Distance", odoDistance);
+            dashboard.sendTelemetryPacket(packet);
 
 
             telemetry.addData("odo" ,odo );
@@ -105,7 +153,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 //
         }
 
-        }
+    }
 
     private void trackingWithOdo(boolean usingOdo) {
         if (usingOdo){
@@ -152,41 +200,48 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         }
     }
 
-        private void updateMovement () {
+    private void updateMovement () {
 
-            f.setTeleOpDrive(
-                    -gamepad1.left_stick_y * speedMultiplier,
-                    -gamepad1.left_stick_x * speedMultiplier,
-                    -gamepad1.right_stick_x * speedMultiplier,
-                    true,
-                    0);
+        f.setTeleOpDrive(
+                -gamepad1.left_stick_y * speedMultiplier,
+                -gamepad1.left_stick_x * speedMultiplier,
+                -gamepad1.right_stick_x * speedMultiplier,
+                true,
+                0);
 
-            if (gamepad1.left_trigger >= .2)
-                speedMultiplier = .2;
-            else
-                speedMultiplier = 1;
+        if (gamepad1.left_trigger >= .2)
+            speedMultiplier = .2;
+        else
+            speedMultiplier = 1;
+    }
+
+
+    public void senseTag () {
+        result = limelight.getLatestResult();
+        try {
+            tX = result.getFiducialResults().get(0).getTargetXDegrees();
+            tY = result.getFiducialResults().get(0).getTargetYDegrees();
+            telemetry.addData("Reading Apriltag", result.getFiducialResults().get(0).getFiducialId());
+            telemetry.addData("TagX", tX);
+            telemetry.addData("TagY", tY);
+            aprilTagDetected = true;
+
+        } catch (Exception e) {
+            tX = 0;
+            tY = 0;
+            aprilTagDetected = false;
+            telemetry.addData("No AprilTag Detected", "-1");
         }
-
-
-        public void senseTag () {
-            result = limelight.getLatestResult();
-            try {
-                tX = result.getFiducialResults().get(0).getTargetXDegrees();
-                tY = result.getFiducialResults().get(0).getTargetYDegrees();
-                telemetry.addData("Reading Apriltag", result.getFiducialResults().get(0).getFiducialId());
-                telemetry.addData("TagX", tX);
-                telemetry.addData("TagY", tY);
-                aprilTagDetected = true;
-
-            } catch (Exception e) {
-                tX = 0;
-                tY = 0;
-                aprilTagDetected = false;
-                telemetry.addData("No AprilTag Detected", "-1");
-            }
-
-        }
-
 
     }
+
+    public void setHoodAngle(double position) {
+        angleLeft.setPosition(position); //0 -.6
+        angleRight.setPosition(1 - position); //.25-1
+    }
+
+    public void setLaunchVelocity(double velocity){
+        launch.setVelocity(velocity);
+    }
+}
 
