@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.hornet.General.PoseConstants;
 import org.firstinspires.ftc.teamcode.hornet.General.SharedData;
+import org.firstinspires.ftc.teamcode.hornet.General.Side;
 import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
 
@@ -33,7 +34,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
     private Limelight3A limelight = null;
     private LLResult result;
     boolean odo, tag, heading, off;
-    boolean isOdo, isTag, isHeading, isOff;
+    boolean isOdo, isTag, isHeading, isOff, aprilTagDetected;
 
 
     public void runOpMode() throws InterruptedException{
@@ -48,6 +49,7 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
         limelight = hardwareMap.get(Limelight3A.class , "limelight");
 
         limelight.start();
+        limelight.pipelineSwitch(SharedData.side == Side.RED ? 1 : 2);
         f.setStartingPose(midasPoses.StartPose);
 
         waitForStart();
@@ -66,10 +68,8 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
             else if (gamepad1.b && !odo){
                 isOdo = true;
                 isHeading=false;
-                isTag=false;
             }
             else if (gamepad1.y && !tag){
-                isOdo = false;
                 isHeading=false;
                 isTag=true;
             } else if (gamepad1.x && !off)
@@ -118,8 +118,8 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
             diffX = Math.abs(midasPoses.goal.getX() - f.getPose().getX());
             diffY = Math.abs(midasPoses.goal.getY() - f.getPose().getY());
-            telemetry.addData("theta" , ((SharedData.side == RED ? -1 : 1)*(Math.atan2(diffX, diffY)*180/Math.PI)));
-            theta = (-f.getPose().getHeading()*180/Math.PI + 90 + ((SharedData.side == RED ? -1 : 1)*(Math.atan2(diffX, diffY)*180/Math.PI)));
+            telemetry.addData("theta" , ((SharedData.side == Side.RED ? -1 : 1)*(Math.atan2(diffX, diffY)*180/Math.PI)));
+            theta = ((turret.getCurrentPosition() < 1000 ? -f.getPose().getHeading()*180/Math.PI : -f.getPose().getHeading()*180/Math.PI+360) + 90 + ((SharedData.side == Side.RED ? -1 : 1)*(Math.atan2(diffX, diffY)*180/Math.PI)));
             telemetry.addData("angle", theta);
             odoTicks =  (int) ((theta)*5.771);
 
@@ -150,7 +150,8 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
                 }
                 turret.setTargetPosition(tagTicks);
             } else {
-                turret.setTargetPosition(tagTicks);
+                if(aprilTagDetected)
+                    turret.setTargetPosition(tagTicks);
                 telemetry.addData("currently", "tag");
 
             }
@@ -197,17 +198,18 @@ public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
         public void senseTag () {
             result = limelight.getLatestResult();
-
             try {
                 tX = result.getFiducialResults().get(0).getTargetXDegrees();
                 tY = result.getFiducialResults().get(0).getTargetYDegrees();
                 telemetry.addData("Reading Apriltag", result.getFiducialResults().get(0).getFiducialId());
                 telemetry.addData("TagX", tX);
                 telemetry.addData("TagY", tY);
+                aprilTagDetected = true;
 
             } catch (Exception e) {
                 tX = 0;
                 tY = 0;
+                aprilTagDetected = false;
                 telemetry.addData("No AprilTag Detected", "-1");
             }
 
