@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@TeleOp(name = "Motor Direction Test")
+@TeleOp(name = "Motor Direction Test" , group = "TURRET TUNERS")
 public class MotorDirectionTest extends LinearOpMode {
 
     private DcMotorEx turret = null;

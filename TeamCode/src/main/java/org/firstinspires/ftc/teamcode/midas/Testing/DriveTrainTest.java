@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp
+        (name = "Drive Train Test")
 public class DriveTrainTest extends LinearOpMode {
     private DcMotorEx leftFront = null, leftBack= null, rightFront= null, rightBack= null;
 

@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.midas.MidasGeneral.MidasPoseConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.MidasConstants;
 
 @TeleOp
+        (name = "TURRET TRACKING" , group = "TURRET TUNERS")
 public class ODO_TRACKING_SWIVEL extends LinearOpMode {
 
     private Follower f;

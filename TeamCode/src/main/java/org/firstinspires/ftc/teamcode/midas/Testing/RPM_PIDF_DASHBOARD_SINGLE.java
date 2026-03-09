@@ -15,16 +15,15 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 public class RPM_PIDF_DASHBOARD_SINGLE extends LinearOpMode {
 
     private DcMotorEx shooter;
-    private VoltageSensor voltageSensor;
 
     // REV HD Hex encoder (no gearbox)
     private static final double TICKS_PER_REV = 28;
 
     // Tunable PIDF values (from dashboard)
-    public static double kP = 20.0;
+    public static double kP = 0.0;
     public static double kI = 0.0;
-    public static double kD = 2.0;
-    public static double kF = 12.0;
+    public static double kD = 0.0;
+    public static double kF = 0.0;
 
     public static boolean RPM_MODE = false;
     // Individual target RPMs
@@ -37,7 +36,6 @@ public class RPM_PIDF_DASHBOARD_SINGLE extends LinearOpMode {
     public void runOpMode() {
         // Hardware mapping
         shooter = hardwareMap.get(DcMotorEx.class, "launch");
-        voltageSensor = hardwareMap.get(VoltageSensor.class, "Control Hub");
         // Reset encoders
         shooter.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -57,7 +55,6 @@ public class RPM_PIDF_DASHBOARD_SINGLE extends LinearOpMode {
             // Set motor velocities
             shooter.setVelocity(RPM_MODE ? rpmToTicksPerSecond(targetRPM) : targetVel);
 
-            volts = voltageSensor.getVoltage();
             // Telemetry packet for Dashboard
             TelemetryPacket packet = new TelemetryPacket();
             packet.put("Target VEL", targetVel);
