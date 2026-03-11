@@ -68,7 +68,6 @@ public class RPM_PIDF_DASHBOARD_SINGLE extends LinearOpMode {
             // Driver Station telemetry
             telemetry.addData("Target VEL", targetVel);
             telemetry.addData("Target RPM" , targetRPM);
-            packet.put("volts", volts);
 
             telemetry.addData("Actual Velocity", shooter.getVelocity());
 
