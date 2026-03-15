@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp
         (name = "Drive Train Test")
 public class DriveTrainTest extends LinearOpMode {
-    private DcMotorEx leftFront = null, leftBack= null, rightFront= null, rightBack= null;
+    private DcMotorEx leftFront = null, leftBack= null, rightFront= null, rightBack= null, launch = null;
 
     public void runOpMode() throws InterruptedException{
 
@@ -14,6 +14,7 @@ public class DriveTrainTest extends LinearOpMode {
         leftBack = hardwareMap.get(DcMotorEx.class , "leftBack");
         rightFront = hardwareMap.get(DcMotorEx.class , "rightFront");
         rightBack = hardwareMap.get(DcMotorEx.class , "rightBack");
+        launch = hardwareMap.get(DcMotorEx.class , "launch");
 
 
         waitForStart();
@@ -44,6 +45,12 @@ public class DriveTrainTest extends LinearOpMode {
                 telemetry.update();
             }
             else rightBack.setPower(0);
+            if (gamepad1.dpad_down){
+                launch.setPower(.5);
+                telemetry.addData("currently running" , "launch");
+                telemetry.update();
+            }
+            else launch.setPower(0);
         }
 
     }

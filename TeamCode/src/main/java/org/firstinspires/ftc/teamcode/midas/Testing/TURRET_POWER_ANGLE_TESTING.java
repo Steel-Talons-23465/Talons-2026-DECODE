@@ -58,6 +58,7 @@ public class TURRET_POWER_ANGLE_TESTING extends LinearOpMode {
 
         launch = hardwareMap.get(DcMotorEx.class, "launch");
         launch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         launch.setDirection(DcMotorSimple.Direction.REVERSE);
         angleLeft = hardwareMap.get(Servo.class, "angleLeft");
         angleRight = hardwareMap.get(Servo.class, "angleRight");
