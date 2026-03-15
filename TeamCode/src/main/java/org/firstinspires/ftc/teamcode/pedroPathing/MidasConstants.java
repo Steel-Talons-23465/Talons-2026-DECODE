@@ -23,19 +23,21 @@ public class MidasConstants {
             .mass(11.5)
             .forwardZeroPowerAcceleration(-30.8969154803)
             .lateralZeroPowerAcceleration(-66.4346399703)
-            .useSecondaryTranslationalPIDF(true)
-            .useSecondaryHeadingPIDF(true)
-            .useSecondaryDrivePIDF(true)
-            .centripetalScaling(0.0005)
+//            .drivePIDFCoefficients(
+//                    new FilteredPIDFCoefficients(.05, 0, .00065, 0, .020))
 
-            .translationalPIDFCoefficients(new PIDFCoefficients(1, .001, .15, .04))
-            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, .095, .04))
-            .drivePIDFCoefficients(
-                    new FilteredPIDFCoefficients(.05, 0, .00065, 0, .020))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients( 0, 0, 0, .03)
-            )
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(.75, 0, 0, .03))
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(.15,0,0.01,0.015))
+//            .translationalPIDFCoefficients(new PIDFCoefficients(1, .001, .15, .04))
+//            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(.15,0,0.01,0.015))
+
+//            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, .095, .04))
+//            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients( 0, 0, 0, .03)
+//            )
+//            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(.75, 0, 0, .03))
+
+//            .useSecondaryDrivePIDF(true)
+//            .useSecondaryTranslationalPIDF(true)
+//            .useSecondaryHeadingPIDF(true)
+//            .centripetalScaling(0.0005)
             ;
 
     public static MecanumConstants driveConstants = new MecanumConstants()
@@ -52,14 +54,14 @@ public class MidasConstants {
 
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(3.30709)
-            .strafePodX(0)
+            .forwardPodY(1.73868189)
+            .strafePodX(-.28191063)
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("odo")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
-            .yawScalar(1.0)
-            .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
-            .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
+            .yawScalar(1.0);
+     //       .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
+     //       .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
 
     public static PathConstraints pathConstraints = new PathConstraints(
             .95,

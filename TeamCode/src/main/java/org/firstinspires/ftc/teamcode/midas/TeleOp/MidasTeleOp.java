@@ -66,7 +66,12 @@ public class MidasTeleOp extends LinearOpMode {
                 isTag=false;
                 telemetry.addData("currently" , "nothing");
             }
-
+            if (gamepad1.right_bumper){
+                midas.startIntake(true);
+            }else if (gamepad1.left_bumper){
+                midas.startIntake(false);
+            }
+            else midas.stopIntake();
             trackingWithOdo(isOdo);
             trackingWithTag(isTag);
 
@@ -174,5 +179,8 @@ public class MidasTeleOp extends LinearOpMode {
         }
 
     }
+
+
+
 
 }

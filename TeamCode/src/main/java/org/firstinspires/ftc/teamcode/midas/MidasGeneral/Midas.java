@@ -16,7 +16,7 @@ public class Midas {
 
     public void initialize(HardwareMap hardwareMap){
         turret = hardwareMap.get(DcMotorEx.class , "turret");
-        sorter = hardwareMap.get(DcMotorEx.class , "sorter");
+        //sorter = hardwareMap.get(DcMotorEx.class , "sorter");
         intake = hardwareMap.get(DcMotorEx.class , "intake");
         launch = hardwareMap.get(DcMotorEx.class , "launch");
         adjustLeft = hardwareMap.get(Servo.class , "adjustLeft");
@@ -52,5 +52,14 @@ public class Midas {
     }
     public int getTurretPos(){
         return turret.getCurrentPosition();
+    }
+    public void setStoragePos(){
+
+    }
+    public void startIntake(boolean intaking){
+        intake.setPower(intaking ? 1 : -1);
+    }
+    public void stopIntake(){
+        intake.setPower(0);
     }
 }

@@ -10,7 +10,6 @@
         <LynxModule name="Control Hub" port="173">
             <goBILDA5202SeriesMotor name = "intake" port = "3"/>
             <goBILDA5202SeriesMotor name = "launch" port = "0"/>
-            <goBILDA5202SeriesMotor name = "sorter" port = "1" />
             <goBILDA5202SeriesMotor name="rightBack" port="1" />
             <goBILDA5202SeriesMotor name="rightFront" port="2" />
             <Servo name ="adjustLeft" port ="0"/>
