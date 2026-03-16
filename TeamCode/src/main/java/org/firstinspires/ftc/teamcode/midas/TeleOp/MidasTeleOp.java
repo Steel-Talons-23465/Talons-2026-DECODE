@@ -31,7 +31,7 @@ public class MidasTeleOp extends LinearOpMode {
     private int odoTicks, tagTicks;
     private LLResult result;
 
-    public boolean launching;
+    public boolean launching, dpadLeft, robotCentric;
     public boolean manualAngle = false, manualVel = false;
     public double launchVelocity;
     public double angleHood = .25;
@@ -53,6 +53,13 @@ public class MidasTeleOp extends LinearOpMode {
             f.update();
             updateMovement();
 
+//            if (gamepad1.dpad_left){
+//                midas.sorterSPIIIN(true);
+//            }
+//            else if(gamepad1.dpad_right){
+//                midas.sorterSPIIIN(false);
+//            }
+//            else midas.stopSorter();
 
             if (gamepad1.b && !odo){
                 isOdo = true;
@@ -87,6 +94,16 @@ public class MidasTeleOp extends LinearOpMode {
                 midas.setLaunchVelocity(launchVelocity);
             else
                 midas.setLaunchVelocity(0);
+//
+//            if (gamepad2.dpad_left){
+//                midas.setStoragePos(0);
+//            }
+//            else if (gamepad2.dpad_up){
+//                midas.setStoragePos(1);
+//            }
+//            else if (gamepad2.dpad_right){
+//                midas.setStoragePos(2);
+//            }
 
         }
 
@@ -97,13 +114,16 @@ public class MidasTeleOp extends LinearOpMode {
                 -gamepad1.left_stick_y * speedMultiplier,
                 -gamepad1.left_stick_x * speedMultiplier,
                 -gamepad1.right_stick_x * speedMultiplier,
-                true,
-                0);
+                robotCentric,
+                (SharedData.side == Side.RED || robotCentric) ? 0 : Math.toRadians(180));
 
         if (gamepad1.left_trigger >= .2)
             speedMultiplier = .2;
         else
             speedMultiplier = 1;
+        if(dpadLeft != gamepad1.dpad_left && gamepad1.dpad_left)
+            robotCentric = !robotCentric;
+        dpadLeft = gamepad1.dpad_left;
     }
 
     private void trackingWithOdo(boolean usingOdo) {

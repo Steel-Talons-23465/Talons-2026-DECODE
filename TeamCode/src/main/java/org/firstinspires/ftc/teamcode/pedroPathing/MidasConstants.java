@@ -21,8 +21,8 @@ public class MidasConstants {
 
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(11.5)
-            .forwardZeroPowerAcceleration(-30.8969154803)
-            .lateralZeroPowerAcceleration(-66.4346399703)
+         //   .forwardZeroPowerAcceleration(-30.8969154803)
+           // .lateralZeroPowerAcceleration(-66.4346399703)
 //            .drivePIDFCoefficients(
 //                    new FilteredPIDFCoefficients(.05, 0, .00065, 0, .020))
 
@@ -48,14 +48,14 @@ public class MidasConstants {
             .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .xVelocity(65.4189987543)
-            .yVelocity(51.7807841143);
+            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE);
+//            .xVelocity(65.4189987543)
+//            .yVelocity(51.7807841143);
 
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(1.73868189)
-            .strafePodX(-.28191063)
+//            .forwardPodY(1.73868189)
+//            .strafePodX(-.28191063)
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("odo")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
