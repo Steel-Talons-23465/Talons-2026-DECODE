@@ -78,7 +78,7 @@ public static boolean manualAngle, manualVel, manualTurret;
 
         limelight.start();
         limelight.pipelineSwitch(2);
-        f.setStartingPose(midasPoses.StartPose);
+        f.setStartingPose(midasPoses.START_POSE);
 
         FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -193,18 +193,17 @@ public static boolean manualAngle, manualVel, manualTurret;
         if (usingTag) {
             senseTag();
             if (Math.abs(tX) > 1) {
-                if(Math.abs(currentPos - turret.getTargetPosition()) < 120)
+                if (Math.abs(currentPos - turret.getTargetPosition()) < 120)
                     tagTicks = currentPos - (int) (5.771 * tX);
-                if (tagTicks >= 2400){
-                    tagTicks = tagTicks-2077;
-                }
-                else if (turret.getTargetPosition() <= -775){
-                    tagTicks = tagTicks+2077;
+                if (tagTicks >= 2400) {
+                    tagTicks = tagTicks - 2077;
+                } else if (turret.getTargetPosition() <= -775) {
+                    tagTicks = tagTicks + 2077;
 
                 }
                 turret.setTargetPosition(tagTicks);
             } else {
-                if(aprilTagDetected)
+                if (aprilTagDetected)
                     turret.setTargetPosition(tagTicks);
                 telemetry.addData("currently", "tag");
 
